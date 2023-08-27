@@ -1,0 +1,74 @@
+{
+    "name": "UnitInputActions",
+    "maps": [
+        {
+            "name": "Unit",
+            "id": "b532f190-a7e0-4920-b58b-fe2dc8892833",
+            "actions": [
+                {
+                    "name": "SelectUnitMultiple",
+                    "type": "Value",
+                    "id": "60cd80b1-cf38-4287-8a51-88f6a3945641",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "SlowTap",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SelectUnitSingle",
+                    "type": "Button",
+                    "id": "3c1490be-9f04-4929-865a-8ba4f4893695",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectUnitInclusive",
+                    "type": "Value",
+                    "id": "fa41345d-5369-46a9-8c09-1d7b1b175582",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2eb84647-e713-483e-a3e4-e3d721e632fd",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectUnitMultiple",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "30ef23a8-917f-4e76-98df-e2bf3c44a460",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectUnitSingle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7804311c-0039-4382-b12f-39f3e4588076",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectUnitInclusive",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
