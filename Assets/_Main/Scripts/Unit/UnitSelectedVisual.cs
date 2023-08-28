@@ -11,10 +11,13 @@ public class UnitSelectedVisual : MonoBehaviour
     {
         meshRenderer = GetComponent<MeshRenderer>();
 
-        Hide();
-
         unit.OnUnitSelected += Unit_OnUnitSelected;
         unit.OnUnitDeselected += Unit_OnUnitDeselected;
+    }
+
+    private void Start()
+    {
+        Hide();
     }
 
     private void Unit_OnUnitDeselected(object sender, EventArgs e)

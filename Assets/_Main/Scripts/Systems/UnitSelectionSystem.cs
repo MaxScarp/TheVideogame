@@ -1,77 +1,83 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitSelectionSystem : MonoBehaviour
 {
     [SerializeField] private LayerMask unitLayerMask;
-    [SerializeField] private RectTransform selectionBoxVisual;
+    [SerializeField] private RectTransform unitSelectionArea;
 
     private Vector3 startPosition;
     private Vector3 endPosition;
-    private Rect selectionBox;
+    private float selectMultipleUnitHeldTimer;
+    private float selectMultipleUnitHeldTimerMax;
+    private bool isMouseBeenHeld;
 
     private void Awake()
     {
-        UpdateSelectionBoxVisual();
+        selectMultipleUnitHeldTimerMax = 0.1f;
 
         InputManager.OnSelectUnitSinglePerformed += InputManager_OnSelectUnitSinglePerformed;
         InputManager.OnSelectUnitMultipleStarted += InputManager_OnSelectUnitMultipleStarted;
     }
 
+    private void Start()
+    {
+        UpdateUnitSelectionArea();
+    }
+
     private void Update()
     {
-        if (InputManager.IsMouseLeftHeld())
+        if (InputManager.IsSelectUnitMultipleHeld())
         {
+            selectMultipleUnitHeldTimer += Time.deltaTime;
+            isMouseBeenHeld = selectMultipleUnitHeldTimer >= selectMultipleUnitHeldTimerMax;
+
             endPosition = UtilsClass.GetMouseScreenPosition();
 
-            UpdateSelectionBoxVisual();
-            UpdateSelectionBox();
+            UpdateUnitSelectionArea();
         }
-        else
+
+        if (InputManager.IsSelectUnitMultipleReleased())
         {
-            SelectMultipleUnits();
-
-            startPosition = Vector3.zero;
-            endPosition = Vector3.zero;
-
-            UpdateSelectionBoxVisual();
+            if (isMouseBeenHeld)
+            {
+                SelectMultipleUnits();
+            }
+            ResetSelectMultipleUnitHeldTimer();
+            ResetMousePosition();
+            UpdateUnitSelectionArea();
         }
+    }
+
+    /// <summary>
+    /// Reset the startPosition and the endPosition
+    /// </summary>
+    private void ResetMousePosition()
+    {
+        startPosition = Vector3.zero;
+        endPosition = Vector3.zero;
+    }
+
+    /// <summary>
+    /// Reset the timer used for revealing the mouse held for selecting multiple units
+    /// </summary>
+    private void ResetSelectMultipleUnitHeldTimer()
+    {
+        selectMultipleUnitHeldTimer = 0f;
+        isMouseBeenHeld = false;
     }
 
     private void InputManager_OnSelectUnitMultipleStarted(object sender, EventArgs e)
     {
         startPosition = UtilsClass.GetMouseScreenPosition();
-        selectionBox = new Rect();
     }
 
     private void InputManager_OnSelectUnitSinglePerformed(object sender, EventArgs e)
     {
+        ResetSelectMultipleUnitHeldTimer();
+
         SelectClickedUnit();
-    }
-
-    private void UpdateSelectionBox()
-    {
-        if (UtilsClass.GetMouseScreenPosition().x < startPosition.x)
-        {
-            selectionBox.xMin = UtilsClass.GetMouseScreenPosition().x;
-            selectionBox.xMax = startPosition.x;
-        }
-        else
-        {
-            selectionBox.xMin = startPosition.x;
-            selectionBox.xMax = UtilsClass.GetMouseScreenPosition().x;
-        }
-
-        if (UtilsClass.GetMouseScreenPosition().y < startPosition.y)
-        {
-            selectionBox.yMin = UtilsClass.GetMouseScreenPosition().y;
-            selectionBox.yMax = startPosition.y;
-        }
-        else
-        {
-            selectionBox.yMin = startPosition.y;
-            selectionBox.yMax = UtilsClass.GetMouseScreenPosition().y;
-        }
     }
 
     /// <summary>
@@ -79,33 +85,66 @@ public class UnitSelectionSystem : MonoBehaviour
     /// </summary>
     private void SelectMultipleUnits()
     {
-        foreach (Unit unit in UnitManager.GetFriendlyUnitList())
+        Vector2 min = unitSelectionArea.anchoredPosition - (unitSelectionArea.sizeDelta * 0.5f);
+        Vector2 max = unitSelectionArea.anchoredPosition + (unitSelectionArea.sizeDelta * 0.5f);
+
+        List<Unit> unitInsideSelectionBox = new List<Unit>();
+
+        foreach (Unit unit in UnitManager.GetAllUnitList())
         {
-            if (selectionBox.Contains(UtilsClass.GetWorldToScreenPosition(unit.transform.position)))
+            Vector3 unitScreenPosition = UtilsClass.GetWorldToScreenPosition(unit.transform.position);
+            if (unitScreenPosition.x > min.x && unitScreenPosition.x < max.x && unitScreenPosition.y > min.y && unitScreenPosition.y < max.y)
             {
-                if (!unit.GetIsSelected())
+                //The unit is inside the selectionBox
+                unitInsideSelectionBox.Add(unit);
+            }
+        }
+
+        if (unitInsideSelectionBox.Count > 0)
+        {
+            //At least one unit is inside the selectionBox
+            if (InputManager.IsInclusive())
+            {
+                //SelectUnitInclusive is held
+                foreach (Unit unit in unitInsideSelectionBox)
+                {
+                    if (!unit.GetIsSelected())
+                    {
+                        //Unit is not already selected
+                        UnitManager.AddSelectedUnit(unit);
+                    }
+                }
+            }
+            else
+            {
+                //SelectUnitInclusive is not held
+                UnitManager.ClearSelectedUnitList();
+                foreach (Unit unit in unitInsideSelectionBox)
                 {
                     UnitManager.AddSelectedUnit(unit);
                 }
-                else
-                {
-                    UnitManager.RemoveSelectedUnit(unit);
-                }
+            }
+        }
+        else
+        {
+            //No unit is inside the selectionBox
+            if (!InputManager.IsInclusive())
+            {
+                UnitManager.ClearSelectedUnitList();
             }
         }
     }
 
-    private void UpdateSelectionBoxVisual()
+    /// <summary>
+    /// Update the visual of the box for selecting multiple units
+    /// </summary>
+    private void UpdateUnitSelectionArea()
     {
-        Vector2 boxStart = new Vector2(startPosition.x, startPosition.y);
-        Vector2 boxEnd = new Vector2(endPosition.x, endPosition.y);
+        float areaWidth = endPosition.x - startPosition.x;
+        float areaHeight = endPosition.y - startPosition.y;
 
-        Vector2 boxCenter = (boxStart + boxEnd) * 0.5f;
-        selectionBoxVisual.position = boxCenter;
-
-        Vector2 boxSize = new Vector2(Mathf.Abs(boxStart.x - boxEnd.x), Mathf.Abs(boxStart.y - boxEnd.y));
-
-        selectionBoxVisual.sizeDelta = boxSize;
+        unitSelectionArea.sizeDelta = new Vector2(Mathf.Abs(areaWidth), Mathf.Abs(areaHeight));
+        unitSelectionArea.anchoredPosition = startPosition + new Vector3(areaWidth * 0.5f, areaHeight * 0.5f, 0f);
     }
 
     /// <summary>
@@ -124,10 +163,12 @@ public class UnitSelectionSystem : MonoBehaviour
                     //SelectUnitInclusive is held
                     if (!unit.GetIsSelected())
                     {
+                        //Unit is not already selected
                         UnitManager.AddSelectedUnit(unit);
                     }
                     else
                     {
+                        //Unit is already selected
                         UnitManager.RemoveSelectedUnit(unit);
                     }
                 }

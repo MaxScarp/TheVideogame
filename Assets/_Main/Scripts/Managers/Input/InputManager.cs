@@ -30,5 +30,7 @@ public static class InputManager
 
     public static bool IsInclusive() => unitInputActions.Unit.SelectUnitInclusive.ReadValue<float>() > 0f;
 
-    public static bool IsMouseLeftHeld() => unitInputActions.Unit.SelectUnitMultiple.ReadValue<float>() > 0f;
+    public static bool IsSelectUnitMultipleHeld() => unitInputActions.Unit.SelectUnitMultiple.ReadValue<float>() > 0f;
+
+    public static bool IsSelectUnitMultipleReleased() => unitInputActions.Unit.SelectUnitMultiple.WasReleasedThisFrame();
 }

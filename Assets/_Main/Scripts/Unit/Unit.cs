@@ -12,7 +12,7 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-        UnitManager.AddSelectedUnit(this);
+        UnitManager.AddUnitToAllUnitList(this);
     }
 
     public void UnitSelected()
