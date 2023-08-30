@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 
+/// <summary>
+/// Class that is used for storing all the Units of the game.
+/// </summary>
 public static class UnitManager
 {
     private static List<Unit> allUnitList;
@@ -9,9 +12,6 @@ public static class UnitManager
     private static List<Unit> friendlySelectedUnitList;
     private static List<Unit> enemySelectedUnitList;
 
-    /// <summary>
-    /// This class is the container of all the units of the game.
-    /// </summary>
     static UnitManager()
     {
         allUnitList = new List<Unit>();
@@ -105,15 +105,39 @@ public static class UnitManager
         enemySelectedUnitList.Clear();
     }
 
+    /// <summary>
+    /// Get the AllSelectedUnitList.
+    /// </summary>
+    /// <returns>A list that contains all the Units that are currently selected.</returns>
     public static List<Unit> GetAllSelectedUnitList() => allSelectedUnitList;
 
+    /// <summary>
+    /// Get the AllUnitList.
+    /// </summary>
+    /// <returns>A list that contains all the Units of the game.</returns>
     public static List<Unit> GetAllUnitList() => allUnitList;
 
+    /// <summary>
+    /// Get the FriendlyUnitList.
+    /// </summary>
+    /// <returns>A list that contains all the friendly Units of the game.</returns>
     public static List<Unit> GetFriendlyUnitList() => friendlyUnitList;
 
+    /// <summary>
+    /// Get the FriendlySelectedUnitList.
+    /// </summary>
+    /// <returns>A list that contains all the friendly Units that are currently selected.</returns>
     public static List<Unit> GetFriendlySelectedUnitList() => friendlySelectedUnitList;
 
+    /// <summary>
+    /// Get the EnemyUnitList.
+    /// </summary>
+    /// <returns>A list that contains all the enemy Units of the game.</returns>
     public static List<Unit> GetEnemyUnitList() => enemyUnitList;
 
+    /// <summary>
+    /// Get the EnemySelectedUnitList.
+    /// </summary>
+    /// <returns>A list that contains all the enemy Units that are currently selected.</returns>
     public static List<Unit> GetEnemySelectedUnitList() => enemySelectedUnitList;
 }

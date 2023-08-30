@@ -32,6 +32,10 @@ public class MoveBehaviour : BaseBehaviour
         transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
     }
 
+    /// <summary>
+    /// Do the action corresponding to the MoveBehaviour.
+    /// </summary>
+    /// <param name="targetPosition">A position on the world to be reached.</param>
     public override void TakeAction(Vector3 targetPosition)
     {
         this.targetPosition = targetPosition;
@@ -39,5 +43,9 @@ public class MoveBehaviour : BaseBehaviour
         isActive = true;
     }
 
+    /// <summary>
+    /// Get the mousePlaneLayerMask.
+    /// </summary>
+    /// <returns>A LayerMask representing the plane on which the Unit can move.</returns>
     public LayerMask GetMousePlaneLayerMask() => mousePlaneLayerMask;
 }

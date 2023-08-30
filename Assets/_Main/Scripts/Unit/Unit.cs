@@ -15,6 +15,9 @@ public class Unit : MonoBehaviour
         UnitManager.AddUnitToAllUnitList(this);
     }
 
+    /// <summary>
+    /// Set the current unit as a selected unit.
+    /// </summary>
     public void UnitSelected()
     {
         isSelected = true;
@@ -22,6 +25,9 @@ public class Unit : MonoBehaviour
         OnUnitSelected?.Invoke(this, EventArgs.Empty);
     }
 
+    /// <summary>
+    /// Set the current unit as a not selected unit.
+    /// </summary>
     public void UnitDeselected()
     {
         isSelected = false;
@@ -29,7 +35,15 @@ public class Unit : MonoBehaviour
         OnUnitDeselected?.Invoke(this, EventArgs.Empty);
     }
 
+    /// <summary>
+    /// Get the isSelected.
+    /// </summary>
+    /// <returns>True if the Unit is selected, otherwise False.</returns>
     public bool GetIsSelected() => isSelected;
 
+    /// <summary>
+    /// Get the isEnemy.
+    /// </summary>
+    /// <returns>True if the Unit is an enemy Unit, otherwise False.</returns>
     public bool GetIsEnemy() => isEnemy;
 }

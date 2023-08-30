@@ -7,6 +7,10 @@ public class GridDebugObject : MonoBehaviour
 
     private GridObject gridObject;
 
+    /// <summary>
+    /// Initialize the GridDebugObject.
+    /// </summary>
+    /// <param name="gridObject">GridObject to which the GridDebugObject will refer to.</param>
     public void SetGridObject(GridObject gridObject)
     {
         this.gridObject = gridObject;

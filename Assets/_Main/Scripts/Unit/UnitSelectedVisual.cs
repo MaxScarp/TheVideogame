@@ -30,11 +30,17 @@ public class UnitSelectedVisual : MonoBehaviour
         Show();
     }
 
+    /// <summary>
+    /// Show the visual object.
+    /// </summary>
     private void Show()
     {
         meshRenderer.enabled = true;
     }
 
+    /// <summary>
+    /// Hide the visual object.
+    /// </summary>
     private void Hide()
     {
         meshRenderer.enabled = false;

@@ -56,6 +56,10 @@ public class BehaviourSystem : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Get the baseBehaviourArray.
+    /// </summary>
+    /// <returns>A baseBehaviourArray representing all the BaseBehaviours that a Unit owns.</returns>
     public BaseBehaviour[] GetBaseBehaviourArray() => baseBehaviourArray;
 
     private void OnDestroy()
