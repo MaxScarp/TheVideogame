@@ -53,6 +53,15 @@ public partial class @UnitInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold"",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TakeAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""0fcd5eed-0312-4a35-a833-d9716416aadc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -88,6 +97,17 @@ public partial class @UnitInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SelectUnitInclusive"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc73cf16-5024-41fe-a84c-3551dc310860"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TakeAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -99,6 +119,7 @@ public partial class @UnitInputActions: IInputActionCollection2, IDisposable
         m_Unit_SelectUnitMultiple = m_Unit.FindAction("SelectUnitMultiple", throwIfNotFound: true);
         m_Unit_SelectUnitSingle = m_Unit.FindAction("SelectUnitSingle", throwIfNotFound: true);
         m_Unit_SelectUnitInclusive = m_Unit.FindAction("SelectUnitInclusive", throwIfNotFound: true);
+        m_Unit_TakeAction = m_Unit.FindAction("TakeAction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -163,6 +184,7 @@ public partial class @UnitInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Unit_SelectUnitMultiple;
     private readonly InputAction m_Unit_SelectUnitSingle;
     private readonly InputAction m_Unit_SelectUnitInclusive;
+    private readonly InputAction m_Unit_TakeAction;
     public struct UnitActions
     {
         private @UnitInputActions m_Wrapper;
@@ -170,6 +192,7 @@ public partial class @UnitInputActions: IInputActionCollection2, IDisposable
         public InputAction @SelectUnitMultiple => m_Wrapper.m_Unit_SelectUnitMultiple;
         public InputAction @SelectUnitSingle => m_Wrapper.m_Unit_SelectUnitSingle;
         public InputAction @SelectUnitInclusive => m_Wrapper.m_Unit_SelectUnitInclusive;
+        public InputAction @TakeAction => m_Wrapper.m_Unit_TakeAction;
         public InputActionMap Get() { return m_Wrapper.m_Unit; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -188,6 +211,9 @@ public partial class @UnitInputActions: IInputActionCollection2, IDisposable
             @SelectUnitInclusive.started += instance.OnSelectUnitInclusive;
             @SelectUnitInclusive.performed += instance.OnSelectUnitInclusive;
             @SelectUnitInclusive.canceled += instance.OnSelectUnitInclusive;
+            @TakeAction.started += instance.OnTakeAction;
+            @TakeAction.performed += instance.OnTakeAction;
+            @TakeAction.canceled += instance.OnTakeAction;
         }
 
         private void UnregisterCallbacks(IUnitActions instance)
@@ -201,6 +227,9 @@ public partial class @UnitInputActions: IInputActionCollection2, IDisposable
             @SelectUnitInclusive.started -= instance.OnSelectUnitInclusive;
             @SelectUnitInclusive.performed -= instance.OnSelectUnitInclusive;
             @SelectUnitInclusive.canceled -= instance.OnSelectUnitInclusive;
+            @TakeAction.started -= instance.OnTakeAction;
+            @TakeAction.performed -= instance.OnTakeAction;
+            @TakeAction.canceled -= instance.OnTakeAction;
         }
 
         public void RemoveCallbacks(IUnitActions instance)
@@ -223,5 +252,6 @@ public partial class @UnitInputActions: IInputActionCollection2, IDisposable
         void OnSelectUnitMultiple(InputAction.CallbackContext context);
         void OnSelectUnitSingle(InputAction.CallbackContext context);
         void OnSelectUnitInclusive(InputAction.CallbackContext context);
+        void OnTakeAction(InputAction.CallbackContext context);
     }
 }

@@ -5,6 +5,7 @@ public static class InputManager
 {
     public static event EventHandler OnSelectUnitSinglePerformed;
     public static event EventHandler OnSelectUnitMultipleStarted;
+    public static event EventHandler OnTakeActionPerformed;
 
     private static UnitInputActions unitInputActions;
 
@@ -16,6 +17,12 @@ public static class InputManager
 
         unitInputActions.Unit.SelectUnitSingle.performed += SelectUnitSingle_performed;
         unitInputActions.Unit.SelectUnitMultiple.started += SelectUnitMultiple_started;
+        unitInputActions.Unit.TakeAction.performed += TakeAction_performed;
+    }
+
+    private static void TakeAction_performed(InputAction.CallbackContext obj)
+    {
+        OnTakeActionPerformed?.Invoke(null, EventArgs.Empty);
     }
 
     private static void SelectUnitMultiple_started(InputAction.CallbackContext obj)

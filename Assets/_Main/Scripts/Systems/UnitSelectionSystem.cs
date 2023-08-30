@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UnitSelectionSystem : MonoBehaviour
 {
@@ -33,7 +34,8 @@ public class UnitSelectionSystem : MonoBehaviour
             selectMultipleUnitHeldTimer += Time.deltaTime;
             isMouseBeenHeld = selectMultipleUnitHeldTimer >= selectMultipleUnitHeldTimerMax;
 
-            endPosition = UtilsClass.GetMouseScreenPosition();
+
+            endPosition = GetMouseScreenPosition();
 
             UpdateUnitSelectionArea();
         }
@@ -44,10 +46,23 @@ public class UnitSelectionSystem : MonoBehaviour
             {
                 SelectMultipleUnits();
             }
+
             ResetSelectMultipleUnitHeldTimer();
             ResetMousePosition();
             UpdateUnitSelectionArea();
         }
+    }
+
+    /// <summary>
+    /// Get the mouse position on the screen.
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 GetMouseScreenPosition()
+    {
+        Vector3 mousePosition = Mouse.current.position.ReadValue();
+        mousePosition.z = 0f;
+
+        return mousePosition;
     }
 
     /// <summary>
@@ -70,7 +85,7 @@ public class UnitSelectionSystem : MonoBehaviour
 
     private void InputManager_OnSelectUnitMultipleStarted(object sender, EventArgs e)
     {
-        startPosition = UtilsClass.GetMouseScreenPosition();
+        startPosition = GetMouseScreenPosition();
     }
 
     private void InputManager_OnSelectUnitSinglePerformed(object sender, EventArgs e)
@@ -92,7 +107,7 @@ public class UnitSelectionSystem : MonoBehaviour
 
         foreach (Unit unit in UnitManager.GetAllUnitList())
         {
-            Vector3 unitScreenPosition = UtilsClass.GetWorldToScreenPosition(unit.transform.position);
+            Vector3 unitScreenPosition = Camera.main.WorldToScreenPoint(unit.transform.position);
             if (unitScreenPosition.x > min.x && unitScreenPosition.x < max.x && unitScreenPosition.y > min.y && unitScreenPosition.y < max.y)
             {
                 //The unit is inside the selectionBox
@@ -111,17 +126,17 @@ public class UnitSelectionSystem : MonoBehaviour
                     if (!unit.GetIsSelected())
                     {
                         //Unit is not already selected
-                        UnitManager.AddSelectedUnit(unit);
+                        UnitManager.AddUnitToAllSelectedUnitList(unit);
                     }
                 }
             }
             else
             {
                 //SelectUnitInclusive is not held
-                UnitManager.ClearSelectedUnitList();
+                UnitManager.ClearAllSelectedUnitList();
                 foreach (Unit unit in unitInsideSelectionBox)
                 {
-                    UnitManager.AddSelectedUnit(unit);
+                    UnitManager.AddUnitToAllSelectedUnitList(unit);
                 }
             }
         }
@@ -130,7 +145,7 @@ public class UnitSelectionSystem : MonoBehaviour
             //No unit is inside the selectionBox
             if (!InputManager.IsInclusive())
             {
-                UnitManager.ClearSelectedUnitList();
+                UnitManager.ClearAllSelectedUnitList();
             }
         }
     }
@@ -152,7 +167,7 @@ public class UnitSelectionSystem : MonoBehaviour
     /// </summary>
     private void SelectClickedUnit()
     {
-        Ray ray = Camera.main.ScreenPointToRay(UtilsClass.GetMouseScreenPosition());
+        Ray ray = Camera.main.ScreenPointToRay(GetMouseScreenPosition());
         if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, unitLayerMask))
         {
             if (raycastHit.transform.TryGetComponent(out Unit unit))
@@ -164,19 +179,19 @@ public class UnitSelectionSystem : MonoBehaviour
                     if (!unit.GetIsSelected())
                     {
                         //Unit is not already selected
-                        UnitManager.AddSelectedUnit(unit);
+                        UnitManager.AddUnitToAllSelectedUnitList(unit);
                     }
                     else
                     {
                         //Unit is already selected
-                        UnitManager.RemoveSelectedUnit(unit);
+                        UnitManager.RemoveUnitFromAllSelectedUnitList(unit);
                     }
                 }
                 else
                 {
                     //SelectUnitInclusive is not held
-                    UnitManager.ClearSelectedUnitList();
-                    UnitManager.AddSelectedUnit(unit);
+                    UnitManager.ClearAllSelectedUnitList();
+                    UnitManager.AddUnitToAllSelectedUnitList(unit);
                 }
             }
         }
@@ -185,7 +200,7 @@ public class UnitSelectionSystem : MonoBehaviour
             //No unit has been hit
             if (!InputManager.IsInclusive())
             {
-                UnitManager.ClearSelectedUnitList();
+                UnitManager.ClearAllSelectedUnitList();
             }
         }
     }
