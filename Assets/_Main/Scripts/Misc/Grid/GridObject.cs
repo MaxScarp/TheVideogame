@@ -5,20 +5,32 @@ using System.Collections.Generic;
 /// </summary>
 public class GridObject
 {
+    public enum VisibilityLevel
+    {
+        HIDDEN,
+        REVEALED,
+        VISIBLE
+    }
+
+    public VisibilityLevel VisbilityLevel { get { return visibilityLevel; } set { visibilityLevel = value; } }
+
     private LevelGrid levelGrid;
     private GridPosition gridPosition;
     private List<Unit> unitList;
+    private VisibilityLevel visibilityLevel;
 
     /// <summary>
     /// Constructor of the GridObject class.
     /// </summary>
     /// <param name="levelGrid">The LevelGrid to which this GridObject belongs to.</param>
     /// <param name="gridPosition">The GridPosition of this GridObject.</param>
-    public GridObject(LevelGrid levelGrid, GridPosition gridPosition)
+    /// <param name="visibilityLevel">The visibility of the GridObject.</param>
+    public GridObject(LevelGrid levelGrid, GridPosition gridPosition, VisibilityLevel visibilityLevel = VisibilityLevel.HIDDEN)
     {
         this.levelGrid = levelGrid;
         this.gridPosition = gridPosition;
         unitList = new List<Unit>();
+        this.visibilityLevel = visibilityLevel;
     }
 
     public override string ToString()
@@ -29,7 +41,7 @@ public class GridObject
             unitString += $"{unit}\n";
         }
 
-        return $"{gridPosition}\n{unitString}";
+        return $"{gridPosition}\n{unitString}{VisbilityLevel}";
     }
 
     /// <summary>

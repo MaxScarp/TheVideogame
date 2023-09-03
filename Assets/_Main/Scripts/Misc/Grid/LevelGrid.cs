@@ -5,6 +5,8 @@ using UnityEngine;
 /// </summary>
 public class LevelGrid
 {
+    [SerializeField] private int levelNumber = 0;
+
     private int width;
     private int height;
     private float cellSize;
@@ -54,6 +56,42 @@ public class LevelGrid
     }
 
     /// <summary>
+    /// To use once the specified Unit has moved from a GridPositon to another GridPosition.
+    /// </summary>
+    /// <param name="unit">The specified Unit.</param>
+    /// <param name="fromGridPosition">The old GridPositon.</param>
+    /// <param name="toGridPosition">The new GridPosition.</param>
+    public void UnitMovedGridPosition(Unit unit, GridPosition fromGridPosition, GridPosition toGridPosition)
+    {
+        RemoveUnitAtGridPosition(fromGridPosition, unit);
+        AddUnitAtGridPosition(toGridPosition, unit);
+
+        //TODO UnitMoved event somewhere.
+    }
+
+    /// <summary>
+    /// Remove a specified Unit into a specified GridPosition.
+    /// </summary>
+    /// <param name="gridPosition">Specified GridPosition.</param>
+    /// <param name="unit">Specified Unit.</param>
+    public void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit unit)
+    {
+        GridObject gridObject = GetGridObject(gridPosition);
+        gridObject.RemoveUnit(unit);
+    }
+
+    /// <summary>
+    /// Add a specified Unit into a specified GridPosition.
+    /// </summary>
+    /// <param name="gridPosition">Specified GridPosition.</param>
+    /// <param name="unit">Specified Unit.</param>
+    public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit)
+    {
+        GridObject gridObject = GetGridObject(gridPosition);
+        gridObject.AddUnit(unit);
+    }
+
+    /// <summary>
     /// Convert a GridPosition into a world position.
     /// </summary>
     /// <param name="gridPosition">The GridPosition to convert.</param>
@@ -73,4 +111,10 @@ public class LevelGrid
     /// <param name="gridPosition">The GridPosition that "owns" the GridObject.</param>
     /// <returns>The GridObject that is inside the grid of the LevelGrid at the specified GridPosition</returns>
     public GridObject GetGridObject(GridPosition gridPosition) => gridObjectArray[gridPosition.X, gridPosition.Z];
+
+    /// <summary>
+    /// Get the level/layer number.
+    /// </summary>
+    /// <returns></returns>
+    public int GetLevelNumber() => levelNumber;
 }
