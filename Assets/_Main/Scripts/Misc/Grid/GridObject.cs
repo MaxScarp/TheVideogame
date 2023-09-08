@@ -5,19 +5,24 @@ using System.Collections.Generic;
 /// </summary>
 public class GridObject
 {
-    public enum VisibilityLevel
+    public int VisbilityLevel
     {
-        HIDDEN,
-        REVEALED,
-        VISIBLE
+        get
+        {
+            return visibilityLevel;
+        }
+        set
+        {
+            visibilityLevel = value;
+            UpdateVisibilityLevelType();
+        }
     }
-
-    public VisibilityLevel VisbilityLevel { get { return visibilityLevel; } set { visibilityLevel = value; } }
 
     private LevelGrid levelGrid;
     private GridPosition gridPosition;
     private List<Unit> unitList;
-    private VisibilityLevel visibilityLevel;
+    private GridSystemManager.VisibilityLevelType visibilityLevelType;
+    private int visibilityLevel;
 
     /// <summary>
     /// Constructor of the GridObject class.
@@ -25,12 +30,30 @@ public class GridObject
     /// <param name="levelGrid">The LevelGrid to which this GridObject belongs to.</param>
     /// <param name="gridPosition">The GridPosition of this GridObject.</param>
     /// <param name="visibilityLevel">The visibility of the GridObject.</param>
-    public GridObject(LevelGrid levelGrid, GridPosition gridPosition, VisibilityLevel visibilityLevel = VisibilityLevel.HIDDEN)
+    public GridObject(LevelGrid levelGrid, GridPosition gridPosition, int visibilityLevel = 0)
     {
         this.levelGrid = levelGrid;
         this.gridPosition = gridPosition;
         unitList = new List<Unit>();
         this.visibilityLevel = visibilityLevel;
+        visibilityLevelType = GridSystemManager.VisibilityLevelType.HIDDEN;
+    }
+
+    private void UpdateVisibilityLevelType()
+    {
+        if (visibilityLevel < 0)
+        {
+            visibilityLevel = 0;
+        }
+
+        if (visibilityLevel > 0)
+        {
+            visibilityLevelType = GridSystemManager.VisibilityLevelType.VISIBLE;
+        }
+        else
+        {
+            visibilityLevelType = GridSystemManager.VisibilityLevelType.DISCOVERED;
+        }
     }
 
     public override string ToString()
@@ -41,7 +64,7 @@ public class GridObject
             unitString += $"{unit}\n";
         }
 
-        return $"{gridPosition}\n{unitString}{VisbilityLevel}";
+        return $"{gridPosition}\n{unitString}{visibilityLevelType}";
     }
 
     /// <summary>
@@ -73,4 +96,10 @@ public class GridObject
     /// </summary>
     /// <returns>A list containing all the unit inside this GridObject.</returns>
     public List<Unit> GetUnitList() => unitList;
+
+    /// <summary>
+    /// Get the visibility Level enum for this cell.
+    /// </summary>
+    /// <returns>The visibility of the cell into the grid.</returns>
+    public GridSystemManager.VisibilityLevelType GetVisibilityLevelType() => visibilityLevelType;
 }

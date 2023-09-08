@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -5,6 +6,15 @@ using UnityEngine;
 /// </summary>
 public class LevelGrid
 {
+    public event EventHandler<OnAnyUnitMovedGridPositionEventArgs> OnAnyUnitMovedGridPosition;
+
+    public class OnAnyUnitMovedGridPositionEventArgs : EventArgs
+    {
+        public Unit movedUnit;
+        public GridPosition oldGridPosition;
+        public GridPosition newGridPosition;
+    }
+
     [SerializeField] private int levelNumber = 0;
 
     private int width;
@@ -66,7 +76,7 @@ public class LevelGrid
         RemoveUnitAtGridPosition(fromGridPosition, unit);
         AddUnitAtGridPosition(toGridPosition, unit);
 
-        //TODO UnitMoved event somewhere.
+        OnAnyUnitMovedGridPosition?.Invoke(this, new OnAnyUnitMovedGridPositionEventArgs { movedUnit = unit, oldGridPosition = fromGridPosition, newGridPosition = toGridPosition });
     }
 
     /// <summary>

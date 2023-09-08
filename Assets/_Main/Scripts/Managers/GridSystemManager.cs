@@ -5,6 +5,13 @@ using System.Collections.Generic;
 /// </summary>
 public static class GridSystemManager
 {
+    public enum VisibilityLevelType
+    {
+        HIDDEN,
+        DISCOVERED,
+        VISIBLE
+    }
+
     private static Dictionary<int, GridSystem> gridSystemDictionary;
 
     static GridSystemManager()
