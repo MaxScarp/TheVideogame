@@ -4,7 +4,7 @@ public class GridObjectVisual : MonoBehaviour
 {
     [SerializeField] private MeshRenderer meshRenderer;
 
-    public void Show(Material material)
+    public void UpdateMaterial(Material material)
     {
         meshRenderer.enabled = true;
         meshRenderer.material = material;

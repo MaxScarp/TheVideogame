@@ -13,10 +13,12 @@ public static class GridSystemManager
     }
 
     private static Dictionary<int, GridSystem> gridSystemDictionary;
+    private static List<GridSystem> gridSystemList;
 
     static GridSystemManager()
     {
         gridSystemDictionary = new Dictionary<int, GridSystem>();
+        gridSystemList = new List<GridSystem>();
     }
 
     /// <summary>
@@ -28,6 +30,7 @@ public static class GridSystemManager
     {
         if (gridSystemDictionary.ContainsKey(levelGridNumber)) return;
 
+        gridSystemList.Add(gridSystem);
         gridSystemDictionary.Add(levelGridNumber, gridSystem);
     }
 
@@ -39,6 +42,7 @@ public static class GridSystemManager
     {
         if (!gridSystemDictionary.ContainsKey(levelGridNumber)) return;
 
+        gridSystemList.Remove(gridSystemDictionary[levelGridNumber]);
         gridSystemDictionary.Remove(levelGridNumber);
     }
 
@@ -58,4 +62,10 @@ public static class GridSystemManager
         gridSystem = null;
         return false;
     }
+
+    /// <summary>
+    /// Get all the GridSystems of the game.
+    /// </summary>
+    /// <returns>The GridSystem list representing all the GridSystems of the game.</returns>
+    public static List<GridSystem> GetGridSystemList() => gridSystemList;
 }

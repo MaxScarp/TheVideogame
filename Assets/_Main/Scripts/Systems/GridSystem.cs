@@ -1,11 +1,20 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GridSystem : MonoBehaviour
 {
+    public event EventHandler<OnGridVisibilityUpdatedEventArgs> OnGridVisibilityUpdated;
+    public class OnGridVisibilityUpdatedEventArgs : EventArgs
+    {
+        public List<GridObject> gridObjectList;
+    }
+
     [SerializeField] private Transform gridDebugObjectPrefab;
     [SerializeField] private int width = 10;
     [SerializeField] private int height = 10;
     [SerializeField] private float cellSize = 1f;
+    [SerializeField] private int levelNumber = 0;
 
     private LevelGrid levelGrid;
 
@@ -18,7 +27,7 @@ public class GridSystem : MonoBehaviour
 
     private void Start()
     {
-        GridSystemManager.AddGridSystem(levelGrid.GetLevelNumber(), this);
+        GridSystemManager.AddGridSystem(levelNumber, this);
 
         levelGrid.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
     }
@@ -27,6 +36,12 @@ public class GridSystem : MonoBehaviour
     {
         UpdateUnitVisibleCells(e.movedUnit, e.oldGridPosition, e.newGridPosition);
     }
+
+    /// <summary>
+    /// Get the level/layer number.
+    /// </summary>
+    /// <returns></returns>
+    public int GetLevelNumber() => levelNumber;
 
     /// <summary>
     /// Get the levelGrid of this GridSystem.
@@ -47,6 +62,8 @@ public class GridSystem : MonoBehaviour
 
     private void UpdateSurroundingCells(int unitSightRange, GridPosition gridPositionToTest, int valueToAdd)
     {
+        List<GridObject> gridObjectList = new List<GridObject>();
+
         for (int x = -unitSightRange; x <= unitSightRange; x++)
         {
             for (int z = -unitSightRange; z <= unitSightRange; z++)
@@ -57,8 +74,12 @@ public class GridSystem : MonoBehaviour
 
                 GridObject gridObject = levelGrid.GetGridObject(testGridPosition);
                 gridObject.VisbilityLevel += valueToAdd;
+
+                gridObjectList.Add(gridObject);
             }
         }
+
+        OnGridVisibilityUpdated?.Invoke(this, new OnGridVisibilityUpdatedEventArgs { gridObjectList = gridObjectList });
     }
 
     /// <summary>

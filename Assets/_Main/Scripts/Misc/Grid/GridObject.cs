@@ -102,4 +102,10 @@ public class GridObject
     /// </summary>
     /// <returns>The visibility of the cell into the grid.</returns>
     public GridSystemManager.VisibilityLevelType GetVisibilityLevelType() => visibilityLevelType;
+
+    /// <summary>
+    /// Get the GridPosition for this GameObject.
+    /// </summary>
+    /// <returns>A GridPosition struct representing the specific position inside the LevelGrid.</returns>
+    public GridPosition GetGridPosition() => gridPosition;
 }

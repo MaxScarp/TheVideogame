@@ -15,8 +15,6 @@ public class LevelGrid
         public GridPosition newGridPosition;
     }
 
-    [SerializeField] private int levelNumber = 0;
-
     private int width;
     private int height;
     private float cellSize;
@@ -123,8 +121,14 @@ public class LevelGrid
     public GridObject GetGridObject(GridPosition gridPosition) => gridObjectArray[gridPosition.X, gridPosition.Z];
 
     /// <summary>
-    /// Get the level/layer number.
+    /// Get the width of the LevelGrid.
     /// </summary>
-    /// <returns></returns>
-    public int GetLevelNumber() => levelNumber;
+    /// <returns>An integer representing the width of the Grid.</returns>
+    public int GetWidth() => width;
+
+    /// <summary>
+    /// Get the height of the LevelGrid.
+    /// </summary>
+    /// <returns>An integer representing the height of the Grid.</returns>
+    public int GetHeight() => height;
 }
