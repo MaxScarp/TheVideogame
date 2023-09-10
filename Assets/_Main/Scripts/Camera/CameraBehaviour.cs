@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -51,14 +49,15 @@ public class CameraBehaviour : MonoBehaviour
 
     [SerializeField]
     private bool _activeCamera;
-    public  bool ActiveCamera{ 
-        get 
+    public bool ActiveCamera
+    {
+        get
         {
-            return _activeCamera; 
-        } 
-        set 
+            return _activeCamera;
+        }
+        set
         {
-            _activeCamera = value; 
+            _activeCamera = value;
             GetComponentInChildren<Camera>().enabled = value;
             GetComponentInChildren<AudioListener>().enabled = value;
         }
@@ -85,13 +84,13 @@ public class CameraBehaviour : MonoBehaviour
     {
         if (ActiveCamera)
         {
-        GetCameraMovement();
-        if (useScreenEdge)
-            CheckMouseScreenEdge();
+            GetCameraMovement();
+            if (useScreenEdge)
+                CheckMouseScreenEdge();
 
-        UpdateVelocity();
-        UpdateCameraPosition();
-        UpdateBasePosition();
+            UpdateVelocity();
+            UpdateCameraPosition();
+            UpdateBasePosition();
         }
     }
 
@@ -114,11 +113,11 @@ public class CameraBehaviour : MonoBehaviour
     private void GetCameraMovement()
     {
 
-        Vector3 inputVal = InputManager.CameraMovement.ReadValue<Vector2>().x * GetCameraRight() 
+        Vector3 inputVal = InputManager.CameraMovement.ReadValue<Vector2>().x * GetCameraRight()
             + InputManager.CameraMovement.ReadValue<Vector2>().y * GetCameraForward();
 
         inputVal = inputVal.normalized;
-        if(inputVal.sqrMagnitude > 0.1f) 
+        if (inputVal.sqrMagnitude > 0.1f)
         {
             targetPosition += inputVal;
         }
@@ -167,13 +166,13 @@ public class CameraBehaviour : MonoBehaviour
     private void InputManager_OnCameraZoomPerformed(object sender, EventArgs e)
     {
         InputAction.CallbackContext action = (InputAction.CallbackContext)sender;
-        float value = -action.ReadValue<Vector2>().y/ 100;
-        if(Mathf.Abs(value) > 0.1f)
+        float value = -action.ReadValue<Vector2>().y / 100;
+        if (Mathf.Abs(value) > 0.1f)
         {
             zoomHeight = cameraTransform.localPosition.y + value * stepSize;
-            if(zoomHeight < minHeight)
+            if (zoomHeight < minHeight)
                 zoomHeight = minHeight;
-            else if(zoomHeight > maxHeight)
+            else if (zoomHeight > maxHeight)
                 zoomHeight = maxHeight;
 
 
@@ -184,7 +183,7 @@ public class CameraBehaviour : MonoBehaviour
     private void UpdateCameraPosition()
     {
         Vector3 zoomTarget = new Vector3(cameraTransform.localPosition.x, zoomHeight, cameraTransform.localPosition.z);
-        zoomTarget -= zoomSpeed/  (zoomTilt + 3f) * (zoomHeight - cameraTransform.localPosition.y) * Vector3.forward;
+        zoomTarget -= zoomSpeed / (zoomTilt + 3f) * (zoomHeight - cameraTransform.localPosition.y) * Vector3.forward;
 
         cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, zoomTarget, Time.deltaTime * zoomDampening);
         cameraTransform.LookAt(this.transform);
@@ -212,7 +211,7 @@ public class CameraBehaviour : MonoBehaviour
 
     private void HandleCameraInstantiation()
     {
-       InputManager.AddCamera(this);
+        InputManager.AddCamera(this);
         //GetComponentInChildren<Camera>().enabled = _activeCamera;
         //GetComponentInChildren<AudioListener>().enabled = _activeCamera;
     }
