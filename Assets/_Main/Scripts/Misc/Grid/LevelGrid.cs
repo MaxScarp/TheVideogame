@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -5,6 +6,15 @@ using UnityEngine;
 /// </summary>
 public class LevelGrid
 {
+    public event EventHandler<OnAnyUnitMovedGridPositionEventArgs> OnAnyUnitMovedGridPosition;
+
+    public class OnAnyUnitMovedGridPositionEventArgs : EventArgs
+    {
+        public Unit movedUnit;
+        public GridPosition oldGridPosition;
+        public GridPosition newGridPosition;
+    }
+
     private int width;
     private int height;
     private float cellSize;
@@ -54,6 +64,42 @@ public class LevelGrid
     }
 
     /// <summary>
+    /// To use once the specified Unit has moved from a GridPositon to another GridPosition.
+    /// </summary>
+    /// <param name="unit">The specified Unit.</param>
+    /// <param name="fromGridPosition">The old GridPositon.</param>
+    /// <param name="toGridPosition">The new GridPosition.</param>
+    public void UnitMovedGridPosition(Unit unit, GridPosition fromGridPosition, GridPosition toGridPosition)
+    {
+        RemoveUnitAtGridPosition(fromGridPosition, unit);
+        AddUnitAtGridPosition(toGridPosition, unit);
+
+        OnAnyUnitMovedGridPosition?.Invoke(this, new OnAnyUnitMovedGridPositionEventArgs { movedUnit = unit, oldGridPosition = fromGridPosition, newGridPosition = toGridPosition });
+    }
+
+    /// <summary>
+    /// Remove a specified Unit into a specified GridPosition.
+    /// </summary>
+    /// <param name="gridPosition">Specified GridPosition.</param>
+    /// <param name="unit">Specified Unit.</param>
+    public void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit unit)
+    {
+        GridObject gridObject = GetGridObject(gridPosition);
+        gridObject.RemoveUnit(unit);
+    }
+
+    /// <summary>
+    /// Add a specified Unit into a specified GridPosition.
+    /// </summary>
+    /// <param name="gridPosition">Specified GridPosition.</param>
+    /// <param name="unit">Specified Unit.</param>
+    public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit)
+    {
+        GridObject gridObject = GetGridObject(gridPosition);
+        gridObject.AddUnit(unit);
+    }
+
+    /// <summary>
     /// Convert a GridPosition into a world position.
     /// </summary>
     /// <param name="gridPosition">The GridPosition to convert.</param>
@@ -73,4 +119,16 @@ public class LevelGrid
     /// <param name="gridPosition">The GridPosition that "owns" the GridObject.</param>
     /// <returns>The GridObject that is inside the grid of the LevelGrid at the specified GridPosition</returns>
     public GridObject GetGridObject(GridPosition gridPosition) => gridObjectArray[gridPosition.X, gridPosition.Z];
+
+    /// <summary>
+    /// Get the width of the LevelGrid.
+    /// </summary>
+    /// <returns>An integer representing the width of the Grid.</returns>
+    public int GetWidth() => width;
+
+    /// <summary>
+    /// Get the height of the LevelGrid.
+    /// </summary>
+    /// <returns>An integer representing the height of the Grid.</returns>
+    public int GetHeight() => height;
 }

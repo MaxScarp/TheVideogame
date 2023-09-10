@@ -28,8 +28,7 @@ public static class BehaviourManager
     /// Remove a specified BehaviourSystem to the behaviourSystemDictionary.
     /// </summary>
     /// <param name="unit">The Unit to which the specified BehaviourSystem belongs to.</param>
-    /// <param name="behaviourSystem">The specified BehaviourSystem.</param>
-    public static void RemoveBehaviourSystem(Unit unit, BehaviourSystem behaviourSystem)
+    public static void RemoveBehaviourSystem(Unit unit)
     {
         if (!behaviourSystemDictionary.ContainsKey(unit)) return;
 
