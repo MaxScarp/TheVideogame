@@ -710,7 +710,7 @@ MonoBehaviour:
     type: 3}
   width: 10
   height: 10
-  cellSize: 1
+  cellSize: 0.5
   levelNumber: 0
 --- !u!1 &1686853455
 GameObject:

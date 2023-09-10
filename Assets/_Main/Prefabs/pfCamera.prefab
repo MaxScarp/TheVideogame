@@ -189,7 +189,7 @@ MonoBehaviour:
   minHeight: 5
   maxHeight: 50
   zoomSpeed: 2
-  zoomTilt: 0
+  zoomTilt: 10
   maxRotationSpeed: 0.5
   edgeTorelance: 0.05
   useScreenEdge: 0

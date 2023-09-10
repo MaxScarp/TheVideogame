@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
@@ -7,12 +7,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 public static class InputManager
 {
-    private static UnitInputActions unitInputActions;
-
-    private static List<CameraBehaviour> CameraList = new List<CameraBehaviour>();
-    public static int CameraListCount => CameraList.Count;
-
-    private static CameraBehaviour activeCamera;
+    private static PlayerInputActions PlayerInputActions;
 
     //Unit Events
     public static event EventHandler OnSelectUnitSinglePerformed;
@@ -25,19 +20,19 @@ public static class InputManager
 
     static InputManager()
     {
-        unitInputActions = new UnitInputActions();
+        PlayerInputActions = new PlayerInputActions();
 
         //Units
-        unitInputActions.Unit.Enable();
-        unitInputActions.Unit.SelectUnitSingle.performed += SelectUnitSingle_performed;
-        unitInputActions.Unit.SelectUnitMultiple.started += SelectUnitMultiple_started;
-        unitInputActions.Unit.TakeAction.performed += TakeAction_performed;
+        PlayerInputActions.Unit.Enable();
+        PlayerInputActions.Unit.SelectUnitSingle.performed += SelectUnitSingle_performed;
+        PlayerInputActions.Unit.SelectUnitMultiple.started += SelectUnitMultiple_started;
+        PlayerInputActions.Unit.TakeAction.performed += TakeAction_performed;
 
         //Camera
-        unitInputActions.Camera.Enable();
-        unitInputActions.Camera.Rotation.performed += RotateCamera_performed;
-        unitInputActions.Camera.Zoom.performed += ZoomCamera_performed;
-        unitInputActions.Camera.SwitchCamera.performed += SwitchCamera_performed;
+        PlayerInputActions.Camera.Enable();
+        PlayerInputActions.Camera.Rotation.performed += RotateCamera_performed;
+        PlayerInputActions.Camera.Zoom.performed += ZoomCamera_performed;
+        PlayerInputActions.Camera.SwitchCamera.performed += SwitchCamera_performed;
     }
 
     #region Units
@@ -68,66 +63,49 @@ public static class InputManager
     /// Get the state of the inclusive selection button.
     /// </summary>
     /// <returns>True while the button is pressed, otherwise False.</returns>
-    public static bool IsInclusive() => unitInputActions.Unit.SelectUnitInclusive.ReadValue<float>() > 0f;
+    public static bool IsInclusive() => PlayerInputActions.Unit.SelectUnitInclusive.ReadValue<float>() > 0f;
 
     /// <summary>
     /// Get the state of the selection button.
     /// </summary>
     /// <returns>True while the selection button is pressed, otherwise False.</returns>
-    public static bool IsSelectUnitMultipleHeld() => unitInputActions.Unit.SelectUnitMultiple.ReadValue<float>() > 0f;
+    public static bool IsSelectUnitMultipleHeld() => PlayerInputActions.Unit.SelectUnitMultiple.ReadValue<float>() > 0f;
 
     /// <summary>
     /// Get the state of the selection button.
     /// </summary>
     /// <returns>True if the selection button has been released on this frame, otherwise False.</returns>
-    public static bool IsSelectUnitMultipleReleased() => unitInputActions.Unit.SelectUnitMultiple.WasReleasedThisFrame();
-
+    public static bool IsSelectUnitMultipleReleased() => PlayerInputActions.Unit.SelectUnitMultiple.WasReleasedThisFrame();
     #endregion
 
     #region Camera
-    public static InputAction CameraMovement => unitInputActions.Camera.Movement;
+    /// <summary>
+    /// Return the current active camera position.
+    /// </summary>
+    public static Vector2 ActiveCameraPosition => PlayerInputActions.Camera.Movement.ReadValue<Vector2>();
 
     private static void SwitchCamera_performed(InputAction.CallbackContext obj)
     {
         float val = obj.ReadValue<float>();
-        if (CameraList.Count >= 2 && val != 0)
+        if (CameraManager.CameraList.Count >= 2 && val != 0)
         {
-            for (int i = 0; i < CameraList.Count; i++)
+            for (int i = 0; i < CameraManager.CameraList.Count; i++)
             {
-                if (CameraList[i].ActiveCamera)
+                if (CameraManager.CameraList[i].ActiveCamera)
                 {
                     int newActiveCamera = i + (val > 0 ? 1 : -1);
 
                     if (newActiveCamera < 0)
-                        newActiveCamera = CameraList.Count - 1;
-                    else if (newActiveCamera >= CameraList.Count)
+                        newActiveCamera = CameraManager.CameraList.Count - 1;
+                    else if (newActiveCamera >= CameraManager.CameraList.Count)
                         newActiveCamera = 0;
 
-                    CameraList[i].ActiveCamera = false;
-                    CameraList[newActiveCamera].ActiveCamera = true;
+                    CameraManager.CameraList[i].ActiveCamera = false;
+                    CameraManager.CameraList[newActiveCamera].ActiveCamera = true;
                     break;
                 }
             }
         }
     }
-
-    public static void AddCamera(CameraBehaviour camera)
-    {
-        camera.ActiveCamera = CameraList.Count == 0 ? true : false;
-        CameraList.Add(camera);
-    }
-
-    public static void RemoveCamera(CameraBehaviour camera)
-    {
-        EnableOrDisableCamera(camera, false);
-        CameraList.Remove(camera);
-    }
-
-    private static void EnableOrDisableCamera(CameraBehaviour camera, bool isEnabled)
-    {
-        camera.ActiveCamera = isEnabled;
-    }
-
-
     #endregion
 }
