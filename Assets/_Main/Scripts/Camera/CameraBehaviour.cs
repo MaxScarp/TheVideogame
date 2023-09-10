@@ -51,7 +51,7 @@ public class CameraBehaviour : MonoBehaviour
 
     [SerializeField]
     private bool _activeCamera;
-    public  bool ActiveCamera { 
+    public  bool ActiveCamera{ 
         get 
         {
             return _activeCamera; 

@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
-using Unity.VisualScripting;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
@@ -42,7 +39,7 @@ public static class InputManager
         unitInputActions.Camera.Zoom.performed += ZoomCamera_performed;
         unitInputActions.Camera.SwitchCamera.performed += SwitchCamera_performed;
     }
-    
+
     #region Units
     private static void TakeAction_performed(InputAction.CallbackContext obj)
     {
@@ -57,15 +54,33 @@ public static class InputManager
     private static void SelectUnitSingle_performed(InputAction.CallbackContext obj)
     {
         OnSelectUnitSinglePerformed?.Invoke(null, EventArgs.Empty);
-    } 
+    }
     private static void RotateCamera_performed(InputAction.CallbackContext obj)
     {
         OnCameraRotationPerformed?.Invoke(obj, EventArgs.Empty);
-    } 
+    }
     private static void ZoomCamera_performed(InputAction.CallbackContext obj)
     {
         OnCameraZoomPerformed?.Invoke(obj, EventArgs.Empty);
     }
+
+    /// <summary>
+    /// Get the state of the inclusive selection button.
+    /// </summary>
+    /// <returns>True while the button is pressed, otherwise False.</returns>
+    public static bool IsInclusive() => unitInputActions.Unit.SelectUnitInclusive.ReadValue<float>() > 0f;
+
+    /// <summary>
+    /// Get the state of the selection button.
+    /// </summary>
+    /// <returns>True while the selection button is pressed, otherwise False.</returns>
+    public static bool IsSelectUnitMultipleHeld() => unitInputActions.Unit.SelectUnitMultiple.ReadValue<float>() > 0f;
+
+    /// <summary>
+    /// Get the state of the selection button.
+    /// </summary>
+    /// <returns>True if the selection button has been released on this frame, otherwise False.</returns>
+    public static bool IsSelectUnitMultipleReleased() => unitInputActions.Unit.SelectUnitMultiple.WasReleasedThisFrame();
 
     #endregion
 
@@ -104,7 +119,7 @@ public static class InputManager
 
     public static void RemoveCamera(CameraBehaviour camera)
     {
-        EnableOrDisableCamera(camera,false);
+        EnableOrDisableCamera(camera, false);
         CameraList.Remove(camera);
     }
 
@@ -115,23 +130,4 @@ public static class InputManager
 
 
     #endregion
-
-    /// <summary>
-    /// Get the state of the inclusive selection button.
-    /// </summary>
-    /// <returns>True while the button is pressed, otherwise False.</returns>
-    public static bool IsInclusive() => unitInputActions.Unit.SelectUnitInclusive.ReadValue<float>() > 0f;
-
-    /// <summary>
-    /// Get the state of the selection button.
-    /// </summary>
-    /// <returns>True while the selection button is pressed, otherwise False.</returns>
-    public static bool IsSelectUnitMultipleHeld() => unitInputActions.Unit.SelectUnitMultiple.ReadValue<float>() > 0f;
-
-    /// <summary>
-    /// Get the state of the selection button.
-    /// </summary>
-    /// <returns>True if the selection button has been released on this frame, otherwise False.</returns>
-    public static bool IsSelectUnitMultipleReleased() => unitInputActions.Unit.SelectUnitMultiple.WasReleasedThisFrame();
-
 }
