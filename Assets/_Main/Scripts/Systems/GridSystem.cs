@@ -35,10 +35,29 @@ public class GridSystem : MonoBehaviour
     private void LevelGrid_OnAnyUnitMovedGridPosition(object sender, LevelGrid.OnAnyUnitMovedGridPositionEventArgs e)
     {
         UpdateUnitVisibleCells(e.movedUnit, e.oldGridPosition, e.newGridPosition);
+        UpdateEnemyUnitVisibility();
+    }
+
+    private void UpdateEnemyUnitVisibility()
+    {
+        foreach (Unit enemyUnit in UnitManager.GetEnemyUnitList())
+        {
+            GridSystemManager.VisibilityLevelType gridObjectVisibility = levelGrid.GetGridObject(enemyUnit.GetGridPosition()).GetVisibilityLevelType();
+            if (gridObjectVisibility <= GridSystemManager.VisibilityLevelType.DISCOVERED)
+            {
+                enemyUnit.Hide();
+            }
+            else
+            {
+                enemyUnit.Show();
+            }
+        }
     }
 
     private void UpdateUnitVisibleCells(Unit unit, GridPosition oldGridPosition, GridPosition newGridPosition)
     {
+        if (unit.GetIsEnemy()) return;
+
         //Subtract 1 to old cells visibility
         int valueToAddForVisibility = -1;
         UpdateSurroundingCells(unit.GetSightRange(), oldGridPosition, valueToAddForVisibility);

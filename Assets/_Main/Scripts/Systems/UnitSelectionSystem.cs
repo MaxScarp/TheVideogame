@@ -34,7 +34,6 @@ public class UnitSelectionSystem : MonoBehaviour
             selectMultipleUnitHeldTimer += Time.deltaTime;
             isMouseBeenHeld = selectMultipleUnitHeldTimer >= selectMultipleUnitHeldTimerMax;
 
-
             endPosition = GetMouseScreenPosition();
 
             UpdateUnitSelectionArea();
@@ -100,20 +99,7 @@ public class UnitSelectionSystem : MonoBehaviour
     /// </summary>
     private void SelectMultipleUnits()
     {
-        Vector2 min = unitSelectionArea.anchoredPosition - (unitSelectionArea.sizeDelta * 0.5f);
-        Vector2 max = unitSelectionArea.anchoredPosition + (unitSelectionArea.sizeDelta * 0.5f);
-
-        List<Unit> unitInsideSelectionBox = new List<Unit>();
-
-        foreach (Unit unit in UnitManager.GetAllUnitList())
-        {
-            Vector3 unitScreenPosition = Camera.main.WorldToScreenPoint(unit.transform.position);
-            if (unitScreenPosition.x > min.x && unitScreenPosition.x < max.x && unitScreenPosition.y > min.y && unitScreenPosition.y < max.y)
-            {
-                //The unit is inside the selectionBox
-                unitInsideSelectionBox.Add(unit);
-            }
-        }
+        List<Unit> unitInsideSelectionBox = GetUnitInsideSelectionBox();
 
         if (unitInsideSelectionBox.Count > 0)
         {
@@ -150,6 +136,28 @@ public class UnitSelectionSystem : MonoBehaviour
         }
     }
 
+    private List<Unit> GetUnitInsideSelectionBox()
+    {
+        List<Unit> unitInsideSelectionBox = new List<Unit>();
+
+        Vector2 min = unitSelectionArea.anchoredPosition - (unitSelectionArea.sizeDelta * 0.5f);
+        Vector2 max = unitSelectionArea.anchoredPosition + (unitSelectionArea.sizeDelta * 0.5f);
+
+        foreach (Unit unit in UnitManager.GetAllUnitList())
+        {
+            if (unit.GetIsEnemy()) continue;
+
+            Vector3 unitScreenPosition = Camera.main.WorldToScreenPoint(unit.transform.position);
+            if (unitScreenPosition.x > min.x && unitScreenPosition.x < max.x && unitScreenPosition.y > min.y && unitScreenPosition.y < max.y)
+            {
+                //The unit is inside the selectionBox
+                unitInsideSelectionBox.Add(unit);
+            }
+        }
+
+        return unitInsideSelectionBox;
+    }
+
     /// <summary>
     /// Update the visual of the box for selecting multiple units
     /// </summary>
@@ -172,6 +180,17 @@ public class UnitSelectionSystem : MonoBehaviour
         {
             if (raycastHit.transform.TryGetComponent(out Unit unit))
             {
+                //Return condition if the selected unit is an enemy
+                if (unit.GetIsEnemy())
+                {
+                    if (!InputManager.IsInclusive())
+                    {
+                        UnitManager.ClearAllSelectedUnitList();
+                    }
+
+                    return;
+                }
+
                 //A unit has been hit
                 if (InputManager.IsInclusive())
                 {

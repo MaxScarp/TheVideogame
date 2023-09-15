@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour
     [SerializeField] private bool isEnemy = false;
     [SerializeField] private int levelGridNumber = 0;
     [SerializeField] private int sightRange = 2;
+    [SerializeField] private GameObject unit3DVisual;
 
     private bool isSelected;
     private GridPosition gridPosition;
@@ -61,6 +62,22 @@ public class Unit : MonoBehaviour
         gridPosition = levelGrid.GetGridPosition(transform.position);
         levelGrid.AddUnitAtGridPosition(gridPosition, this);
         levelGrid.UnitMovedGridPosition(this, gridPosition, gridPosition);
+    }
+
+    /// <summary>
+    /// Show the 3D rendering of the Unit.
+    /// </summary>
+    public void Show()
+    {
+        unit3DVisual.SetActive(true);
+    }
+
+    /// <summary>
+    /// Hide the 3D rendering of the Unit.
+    /// </summary>
+    public void Hide()
+    {
+        unit3DVisual.SetActive(false);
     }
 
     /// <summary>
