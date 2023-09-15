@@ -7,8 +7,6 @@ public static class CameraManager
 {
     public static List<CameraSystem> CameraList;
 
-    private static CameraSystem activeCamera;
-
     static CameraManager()
     {
         CameraList = new List<CameraSystem>();

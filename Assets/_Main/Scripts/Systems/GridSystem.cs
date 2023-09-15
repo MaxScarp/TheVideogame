@@ -23,12 +23,12 @@ public class GridSystem : MonoBehaviour
         levelGrid = new LevelGrid(width, height, cellSize);
 
         levelGrid.CreateDebugObject(gridDebugObjectPrefab);
+
+        GridSystemManager.AddGridSystem(levelNumber, this, levelGrid);
     }
 
     private void Start()
     {
-        GridSystemManager.AddGridSystem(levelNumber, this);
-
         levelGrid.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
     }
 
@@ -36,18 +36,6 @@ public class GridSystem : MonoBehaviour
     {
         UpdateUnitVisibleCells(e.movedUnit, e.oldGridPosition, e.newGridPosition);
     }
-
-    /// <summary>
-    /// Get the level/layer number.
-    /// </summary>
-    /// <returns></returns>
-    public int GetLevelNumber() => levelNumber;
-
-    /// <summary>
-    /// Get the levelGrid of this GridSystem.
-    /// </summary>
-    /// <returns>The levelGrid of this GridSystem.</returns>
-    public LevelGrid GetLevelGrid() => levelGrid;
 
     private void UpdateUnitVisibleCells(Unit unit, GridPosition oldGridPosition, GridPosition newGridPosition)
     {
@@ -90,5 +78,10 @@ public class GridSystem : MonoBehaviour
     private bool IsValidGridPosition(GridPosition gridPosition)
     {
         return gridPosition.X >= 0 && gridPosition.Z >= 0 && gridPosition.X < width && gridPosition.Z < height;
+    }
+
+    private void OnDestroy()
+    {
+        levelGrid.OnAnyUnitMovedGridPosition -= LevelGrid_OnAnyUnitMovedGridPosition;
     }
 }

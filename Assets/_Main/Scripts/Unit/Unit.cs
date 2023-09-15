@@ -12,7 +12,7 @@ public class Unit : MonoBehaviour
 
     private bool isSelected;
     private GridPosition gridPosition;
-    private GridSystem gridSystem;
+    private LevelGrid levelGrid;
 
     private void Awake()
     {
@@ -24,7 +24,7 @@ public class Unit : MonoBehaviour
     {
         UnitManager.AddUnitToAllUnitList(this);
 
-        SetGridSystem(levelGridNumber);
+        SetLevelGrid(levelGridNumber);
         SetGridPosition();
     }
 
@@ -38,32 +38,29 @@ public class Unit : MonoBehaviour
 
     private void GridPositionHandle()
     {
-        GridPosition newGridPosition = gridSystem.GetLevelGrid().GetGridPosition(transform.position);
+        GridPosition newGridPosition = levelGrid.GetGridPosition(transform.position);
         if (newGridPosition != gridPosition)
         {
             //Unit changed GridPosition
             GridPosition oldGridPosition = gridPosition;
             gridPosition = newGridPosition;
-            gridSystem.GetLevelGrid().UnitMovedGridPosition(this, oldGridPosition, newGridPosition);
+            levelGrid.UnitMovedGridPosition(this, oldGridPosition, newGridPosition);
         }
     }
 
-    private void SetGridSystem(int levelGridNumber)
+    private void SetLevelGrid(int levelGridNumber)
     {
-        if (GridSystemManager.TryGetGridSystem(levelGridNumber, out GridSystem gridSystem))
+        if (GridSystemManager.TryGetLevelGrid(levelGridNumber, out LevelGrid levelGrid))
         {
-            this.gridSystem = gridSystem;
+            this.levelGrid = levelGrid;
         }
     }
 
     private void SetGridPosition()
     {
-        if (GridSystemManager.TryGetGridSystem(levelGridNumber, out GridSystem gridSystem))
-        {
-            gridPosition = gridSystem.GetLevelGrid().GetGridPosition(transform.position);
-            gridSystem.GetLevelGrid().AddUnitAtGridPosition(gridPosition, this);
-            gridSystem.GetLevelGrid().UnitMovedGridPosition(this, gridPosition, gridPosition);
-        }
+        gridPosition = levelGrid.GetGridPosition(transform.position);
+        levelGrid.AddUnitAtGridPosition(gridPosition, this);
+        levelGrid.UnitMovedGridPosition(this, gridPosition, gridPosition);
     }
 
     /// <summary>

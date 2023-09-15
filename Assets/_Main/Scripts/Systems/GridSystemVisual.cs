@@ -22,17 +22,23 @@ public class GridSystemVisual : MonoBehaviour
     [SerializeField] private GridSystem gridSystem;
 
     private GridObjectVisual[,] gridObjectVisualArray;
+    private LevelGrid levelGrid;
+
+    private void Awake()
+    {
+        SetLevelGrid();
+    }
 
     private void Start()
     {
-        gridObjectVisualArray = new GridObjectVisual[gridSystem.GetLevelGrid().GetWidth(), gridSystem.GetLevelGrid().GetHeight()];
+        gridObjectVisualArray = new GridObjectVisual[levelGrid.GetWidth(), levelGrid.GetHeight()];
 
-        for (int x = 0; x < gridSystem.GetLevelGrid().GetWidth(); x++)
+        for (int x = 0; x < levelGrid.GetWidth(); x++)
         {
-            for (int z = 0; z < gridSystem.GetLevelGrid().GetHeight(); z++)
+            for (int z = 0; z < levelGrid.GetHeight(); z++)
             {
                 GridPosition gridPosition = new GridPosition(x, z);
-                Transform gridObjectVisualTransform = Instantiate(gridObjectVisualPrefab, gridSystem.GetLevelGrid().GetWorldPosition(gridPosition), Quaternion.identity);
+                Transform gridObjectVisualTransform = Instantiate(gridObjectVisualPrefab, levelGrid.GetWorldPosition(gridPosition), Quaternion.identity);
                 gridObjectVisualArray[x, z] = gridObjectVisualTransform.GetComponent<GridObjectVisual>();
             }
         }
@@ -80,4 +86,17 @@ public class GridSystemVisual : MonoBehaviour
     }
 
     private GridObjectVisual GetGridObjectVisual(GridPosition gridPosition) => gridObjectVisualArray[gridPosition.X, gridPosition.Z];
+
+    private void SetLevelGrid()
+    {
+        if (GridSystemManager.TryGetLevelGrid(gridSystem, out LevelGrid levelGrid))
+        {
+            this.levelGrid = levelGrid;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        gridSystem.OnGridVisibilityUpdated -= GridSystem_OnGridVisibilityUpdated;
+    }
 }
