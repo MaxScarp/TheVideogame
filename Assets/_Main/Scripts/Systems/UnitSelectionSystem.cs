@@ -10,13 +10,13 @@ public class UnitSelectionSystem : MonoBehaviour
 
     private Vector3 startPosition;
     private Vector3 endPosition;
-    private float selectMultipleUnitHeldTimer;
-    private float selectMultipleUnitHeldTimerMax;
-    private bool isMouseBeenHeld;
+    //private float selectMultipleUnitHeldTimer;
+    //private float selectMultipleUnitHeldTimerMax;
+    //private bool isMouseBeenHeld;
 
     private void Awake()
     {
-        selectMultipleUnitHeldTimerMax = 0.1f;
+        //selectMultipleUnitHeldTimerMax = 0f;
 
         InputManager.OnSelectUnitSinglePerformed += InputManager_OnSelectUnitSinglePerformed;
         InputManager.OnSelectUnitMultipleStarted += InputManager_OnSelectUnitMultipleStarted;
@@ -31,23 +31,19 @@ public class UnitSelectionSystem : MonoBehaviour
     {
         if (InputManager.IsSelectUnitMultipleHeld())
         {
-            selectMultipleUnitHeldTimer += Time.deltaTime;
-            isMouseBeenHeld = selectMultipleUnitHeldTimer >= selectMultipleUnitHeldTimerMax;
-
-
             endPosition = GetMouseScreenPosition();
-
             UpdateUnitSelectionArea();
         }
 
         if (InputManager.IsSelectUnitMultipleReleased())
         {
-            if (isMouseBeenHeld)
+            UpdateUnitSelectionArea();
+
+            if (SelectMultipleUnits() <= 0)
             {
-                SelectMultipleUnits();
+                SelectClickedUnit();
             }
 
-            ResetSelectMultipleUnitHeldTimer();
             ResetMousePosition();
             UpdateUnitSelectionArea();
         }
@@ -77,11 +73,11 @@ public class UnitSelectionSystem : MonoBehaviour
     /// <summary>
     /// Reset the timer used for revealing the mouse held for selecting multiple units
     /// </summary>
-    private void ResetSelectMultipleUnitHeldTimer()
-    {
-        selectMultipleUnitHeldTimer = 0f;
-        isMouseBeenHeld = false;
-    }
+    //private void ResetSelectMultipleUnitHeldTimer()
+    //{
+    //    selectMultipleUnitHeldTimer = 0f;
+    //    isMouseBeenHeld = false;
+    //}
 
     private void InputManager_OnSelectUnitMultipleStarted(object sender, EventArgs e)
     {
@@ -90,15 +86,14 @@ public class UnitSelectionSystem : MonoBehaviour
 
     private void InputManager_OnSelectUnitSinglePerformed(object sender, EventArgs e)
     {
-        ResetSelectMultipleUnitHeldTimer();
-
+        //ResetSelectMultipleUnitHeldTimer();
         SelectClickedUnit();
     }
 
     /// <summary>
     /// Select all the units under the selection box
     /// </summary>
-    private void SelectMultipleUnits()
+    private int SelectMultipleUnits()
     {
         Vector2 min = unitSelectionArea.anchoredPosition - (unitSelectionArea.sizeDelta * 0.5f);
         Vector2 max = unitSelectionArea.anchoredPosition + (unitSelectionArea.sizeDelta * 0.5f);
@@ -148,6 +143,7 @@ public class UnitSelectionSystem : MonoBehaviour
                 UnitManager.ClearAllSelectedUnitList();
             }
         }
+        return unitInsideSelectionBox.Count;
     }
 
     /// <summary>

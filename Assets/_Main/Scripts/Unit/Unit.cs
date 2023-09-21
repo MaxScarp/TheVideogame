@@ -7,7 +7,7 @@ public class Unit : MonoBehaviour
     public event EventHandler OnUnitDeselected;
 
     [SerializeField] private bool isEnemy = false;
-    [SerializeField] private int levelGridNumber = 0;
+    //[SerializeField] private int levelGridNumber = 0;
     [SerializeField] private int sightRange = 2;
 
     private bool isSelected;
@@ -24,47 +24,47 @@ public class Unit : MonoBehaviour
     {
         UnitManager.AddUnitToAllUnitList(this);
 
-        SetGridSystem(levelGridNumber);
-        SetGridPosition();
+        //SetGridSystem(levelGridNumber);
+        //SetGridPosition();
     }
 
     private void Update()
     {
         if (!isEnemy)
         {
-            GridPositionHandle();
+            //GridPositionHandle();
         }
     }
 
-    private void GridPositionHandle()
-    {
-        GridPosition newGridPosition = gridSystem.GetLevelGrid().GetGridPosition(transform.position);
-        if (newGridPosition != gridPosition)
-        {
-            //Unit changed GridPosition
-            GridPosition oldGridPosition = gridPosition;
-            gridPosition = newGridPosition;
-            gridSystem.GetLevelGrid().UnitMovedGridPosition(this, oldGridPosition, newGridPosition);
-        }
-    }
+    //private void GridPositionHandle()
+    //{
+    //    GridPosition newGridPosition = gridSystem.GetLevelGrid().GetGridPosition(transform.position);
+    //    if (newGridPosition != gridPosition)
+    //    {
+    //        Unit changed GridPosition
+    //        GridPosition oldGridPosition = gridPosition;
+    //        gridPosition = newGridPosition;
+    //        gridSystem.GetLevelGrid().UnitMovedGridPosition(this, oldGridPosition, newGridPosition);
+    //    }
+    //}
 
-    private void SetGridSystem(int levelGridNumber)
-    {
-        if (GridSystemManager.TryGetGridSystem(levelGridNumber, out GridSystem gridSystem))
-        {
-            this.gridSystem = gridSystem;
-        }
-    }
+    //private void SetGridSystem(int levelGridNumber)
+    //{
+    //    if (GridSystemManager.TryGetGridSystem(levelGridNumber, out GridSystem gridSystem))
+    //    {
+    //        this.gridSystem = gridSystem;
+    //    }
+    //}
 
-    private void SetGridPosition()
-    {
-        if (GridSystemManager.TryGetGridSystem(levelGridNumber, out GridSystem gridSystem))
-        {
-            gridPosition = gridSystem.GetLevelGrid().GetGridPosition(transform.position);
-            gridSystem.GetLevelGrid().AddUnitAtGridPosition(gridPosition, this);
-            gridSystem.GetLevelGrid().UnitMovedGridPosition(this, gridPosition, gridPosition);
-        }
-    }
+    //private void SetGridPosition()
+    //{
+    //    if (GridSystemManager.TryGetGridSystem(levelGridNumber, out GridSystem gridSystem))
+    //    {
+    //        gridPosition = gridSystem.GetLevelGrid().GetGridPosition(transform.position);
+    //        gridSystem.GetLevelGrid().AddUnitAtGridPosition(gridPosition, this);
+    //        gridSystem.GetLevelGrid().UnitMovedGridPosition(this, gridPosition, gridPosition);
+    //    }
+    //}
 
     /// <summary>
     /// Set the current unit as a selected unit.
