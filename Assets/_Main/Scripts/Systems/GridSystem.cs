@@ -99,6 +99,12 @@ public class GridSystem : MonoBehaviour
         return gridPosition.X >= 0 && gridPosition.Z >= 0 && gridPosition.X < width && gridPosition.Z < height;
     }
 
+    /// <summary>
+    /// Get the cellSize of this GridSystem.
+    /// </summary>
+    /// <returns>A float that indicates the size of a single cell.</returns>
+    public float GetCellSize() => cellSize;
+
     private void OnDestroy()
     {
         levelGrid.OnAnyUnitMovedGridPosition -= LevelGrid_OnAnyUnitMovedGridPosition;

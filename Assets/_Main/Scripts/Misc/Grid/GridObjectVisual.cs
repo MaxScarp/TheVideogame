@@ -14,4 +14,9 @@ public class GridObjectVisual : MonoBehaviour
     {
         meshRenderer.enabled = false;
     }
+
+    public void AdjustScale(float cellSize)
+    {
+        transform.localScale *= cellSize;
+    }
 }

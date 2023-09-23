@@ -10,13 +10,13 @@ public class UnitSelectionSystem : MonoBehaviour
 
     private Vector3 startPosition;
     private Vector3 endPosition;
-    //private float selectMultipleUnitHeldTimer;
-    //private float selectMultipleUnitHeldTimerMax;
-    //private bool isMouseBeenHeld;
+    private float selectMultipleUnitHeldTimer;
+    private float selectMultipleUnitHeldTimerMax;
+    private bool isMouseBeenHeld;
 
     private void Awake()
     {
-        //selectMultipleUnitHeldTimerMax = 0.1f;
+        selectMultipleUnitHeldTimerMax = 0.085f;
 
         InputManager.OnSelectUnitSinglePerformed += InputManager_OnSelectUnitSinglePerformed;
         InputManager.OnSelectUnitMultipleStarted += InputManager_OnSelectUnitMultipleStarted;
@@ -31,18 +31,22 @@ public class UnitSelectionSystem : MonoBehaviour
     {
         if (InputManager.IsSelectUnitMultipleHeld())
         {
+            selectMultipleUnitHeldTimer += Time.deltaTime;
+            isMouseBeenHeld = selectMultipleUnitHeldTimer >= selectMultipleUnitHeldTimerMax;
+
             endPosition = GetMouseScreenPosition();
+
             UpdateUnitSelectionArea();
         }
 
         if (InputManager.IsSelectUnitMultipleReleased())
         {
-            UpdateUnitSelectionArea();
-            
-            if (SelectMultipleUnits() <= 0)
+            if (isMouseBeenHeld)
             {
-                SelectClickedUnit();
+                SelectMultipleUnits();
             }
+
+            ResetSelectMultipleUnitHeldTimer();
             ResetMousePosition();
             UpdateUnitSelectionArea();
         }
@@ -72,11 +76,11 @@ public class UnitSelectionSystem : MonoBehaviour
     /// <summary>
     /// Reset the timer used for revealing the mouse held for selecting multiple units
     /// </summary>
-    //private void ResetSelectMultipleUnitHeldTimer()
-    //{
-    //    selectMultipleUnitHeldTimer = 0f;
-    //    isMouseBeenHeld = false;
-    //}
+    private void ResetSelectMultipleUnitHeldTimer()
+    {
+        selectMultipleUnitHeldTimer = 0f;
+        isMouseBeenHeld = false;
+    }
 
     private void InputManager_OnSelectUnitMultipleStarted(object sender, EventArgs e)
     {

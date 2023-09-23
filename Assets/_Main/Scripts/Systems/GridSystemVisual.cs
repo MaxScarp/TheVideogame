@@ -39,7 +39,9 @@ public class GridSystemVisual : MonoBehaviour
             {
                 GridPosition gridPosition = new GridPosition(x, z);
                 Transform gridObjectVisualTransform = Instantiate(gridObjectVisualPrefab, levelGrid.GetWorldPosition(gridPosition), Quaternion.identity);
-                gridObjectVisualArray[x, z] = gridObjectVisualTransform.GetComponent<GridObjectVisual>();
+                GridObjectVisual gridObjectVisual = gridObjectVisualTransform.GetComponent<GridObjectVisual>();
+                gridObjectVisual.AdjustScale(gridSystem.GetCellSize());
+                gridObjectVisualArray[x, z] = gridObjectVisual;
             }
         }
 
