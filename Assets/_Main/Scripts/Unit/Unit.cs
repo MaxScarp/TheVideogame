@@ -9,10 +9,11 @@ public class Unit : MonoBehaviour
     [SerializeField] private bool isEnemy = false;
     [SerializeField] private int levelGridNumber = 0;
     [SerializeField] private int sightRange = 2;
+    [SerializeField] private GameObject unit3DVisual;
 
     private bool isSelected;
     private GridPosition gridPosition;
-    private GridSystem gridSystem;
+    private LevelGrid levelGrid;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class Unit : MonoBehaviour
     {
         UnitManager.AddUnitToAllUnitList(this);
 
-        SetGridSystem(levelGridNumber);
+        SetLevelGrid(levelGridNumber);
         SetGridPosition();
     }
 
@@ -38,32 +39,45 @@ public class Unit : MonoBehaviour
 
     private void GridPositionHandle()
     {
-        GridPosition newGridPosition = gridSystem.GetLevelGrid().GetGridPosition(transform.position);
+        GridPosition newGridPosition = levelGrid.GetGridPosition(transform.position);
         if (newGridPosition != gridPosition)
         {
             //Unit changed GridPosition
             GridPosition oldGridPosition = gridPosition;
             gridPosition = newGridPosition;
-            gridSystem.GetLevelGrid().UnitMovedGridPosition(this, oldGridPosition, newGridPosition);
+            levelGrid.UnitMovedGridPosition(this, oldGridPosition, newGridPosition);
         }
     }
 
-    private void SetGridSystem(int levelGridNumber)
+    private void SetLevelGrid(int levelGridNumber)
     {
-        if (GridSystemManager.TryGetGridSystem(levelGridNumber, out GridSystem gridSystem))
+        if (GridSystemManager.TryGetLevelGrid(levelGridNumber, out LevelGrid levelGrid))
         {
-            this.gridSystem = gridSystem;
+            this.levelGrid = levelGrid;
         }
     }
 
     private void SetGridPosition()
     {
-        if (GridSystemManager.TryGetGridSystem(levelGridNumber, out GridSystem gridSystem))
-        {
-            gridPosition = gridSystem.GetLevelGrid().GetGridPosition(transform.position);
-            gridSystem.GetLevelGrid().AddUnitAtGridPosition(gridPosition, this);
-            gridSystem.GetLevelGrid().UnitMovedGridPosition(this, gridPosition, gridPosition);
-        }
+        gridPosition = levelGrid.GetGridPosition(transform.position);
+        levelGrid.AddUnitAtGridPosition(gridPosition, this);
+        levelGrid.UnitMovedGridPosition(this, gridPosition, gridPosition);
+    }
+
+    /// <summary>
+    /// Show the 3D rendering of the Unit.
+    /// </summary>
+    public void Show()
+    {
+        unit3DVisual.SetActive(true);
+    }
+
+    /// <summary>
+    /// Hide the 3D rendering of the Unit.
+    /// </summary>
+    public void Hide()
+    {
+        unit3DVisual.SetActive(false);
     }
 
     /// <summary>

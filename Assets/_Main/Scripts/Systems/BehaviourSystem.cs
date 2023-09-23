@@ -19,11 +19,11 @@ public class BehaviourSystem : MonoBehaviour
 
     private void InputManager_OnTakeActionPerformed(object sender, EventArgs e)
     {
-        //Move all the selected units.
         foreach (Unit unit in UnitManager.GetFriendlySelectedUnitList())
         {
             if (this.unit != unit) continue;
 
+            //Move all selected units.
             if (TryGetBehaviour(out MoveBehaviour moveBehaviour))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());

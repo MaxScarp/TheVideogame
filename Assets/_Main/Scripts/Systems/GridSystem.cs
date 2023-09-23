@@ -23,34 +23,41 @@ public class GridSystem : MonoBehaviour
         levelGrid = new LevelGrid(width, height, cellSize);
 
         levelGrid.CreateDebugObject(gridDebugObjectPrefab);
+
+        GridSystemManager.AddGridSystem(levelNumber, this, levelGrid);
     }
 
     private void Start()
     {
-        GridSystemManager.AddGridSystem(levelNumber, this);
-
         levelGrid.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
     }
 
     private void LevelGrid_OnAnyUnitMovedGridPosition(object sender, LevelGrid.OnAnyUnitMovedGridPositionEventArgs e)
     {
         UpdateUnitVisibleCells(e.movedUnit, e.oldGridPosition, e.newGridPosition);
+        UpdateEnemyUnitVisibility();
     }
 
-    /// <summary>
-    /// Get the level/layer number.
-    /// </summary>
-    /// <returns></returns>
-    public int GetLevelNumber() => levelNumber;
-
-    /// <summary>
-    /// Get the levelGrid of this GridSystem.
-    /// </summary>
-    /// <returns>The levelGrid of this GridSystem.</returns>
-    public LevelGrid GetLevelGrid() => levelGrid;
+    private void UpdateEnemyUnitVisibility()
+    {
+        foreach (Unit enemyUnit in UnitManager.GetEnemyUnitList())
+        {
+            GridSystemManager.VisibilityLevelType gridObjectVisibility = levelGrid.GetGridObject(enemyUnit.GetGridPosition()).GetVisibilityLevelType();
+            if (gridObjectVisibility <= GridSystemManager.VisibilityLevelType.DISCOVERED)
+            {
+                enemyUnit.Hide();
+            }
+            else
+            {
+                enemyUnit.Show();
+            }
+        }
+    }
 
     private void UpdateUnitVisibleCells(Unit unit, GridPosition oldGridPosition, GridPosition newGridPosition)
     {
+        if (unit.GetIsEnemy()) return;
+
         //Subtract 1 to old cells visibility
         int valueToAddForVisibility = -1;
         UpdateSurroundingCells(unit.GetSightRange(), oldGridPosition, valueToAddForVisibility);
@@ -90,5 +97,10 @@ public class GridSystem : MonoBehaviour
     private bool IsValidGridPosition(GridPosition gridPosition)
     {
         return gridPosition.X >= 0 && gridPosition.Z >= 0 && gridPosition.X < width && gridPosition.Z < height;
+    }
+
+    private void OnDestroy()
+    {
+        levelGrid.OnAnyUnitMovedGridPosition -= LevelGrid_OnAnyUnitMovedGridPosition;
     }
 }
