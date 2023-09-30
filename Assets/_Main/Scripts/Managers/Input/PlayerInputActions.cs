@@ -134,9 +134,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Rotation"",
+                    ""name"": ""AllowRotation"",
                     ""type"": ""Value"",
                     ""id"": ""2d149357-f891-459e-a41f-b35d4e1e1a2c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseRotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""9c6561c0-9b6d-4b39-a08e-a49f21a8a616"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -288,37 +297,26 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""QE"",
-                    ""id"": ""d4534ee0-ab36-4324-9f31-cf91cb5c2064"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
+                    ""name"": """",
+                    ""id"": ""38c270bc-a5b0-40bf-b549-24e1678d0fa6"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": ""SlowTap(duration=0.01,pressPoint=0.01)"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Rotation"",
-                    ""isComposite"": true,
+                    ""action"": ""AllowRotation"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
-                    ""id"": ""06e8e195-c1e3-42bb-bd15-0d91f745e62b"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""name"": """",
+                    ""id"": ""cdac30df-703f-49d1-9b32-cd977262a4b7"",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Rotation"",
+                    ""action"": ""MouseRotation"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""72086ec1-506e-4858-960a-ffd4381577f1"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotation"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -335,7 +333,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Movement = m_Camera.FindAction("Movement", throwIfNotFound: true);
         m_Camera_Zoom = m_Camera.FindAction("Zoom", throwIfNotFound: true);
-        m_Camera_Rotation = m_Camera.FindAction("Rotation", throwIfNotFound: true);
+        m_Camera_AllowRotation = m_Camera.FindAction("AllowRotation", throwIfNotFound: true);
+        m_Camera_MouseRotation = m_Camera.FindAction("MouseRotation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -469,14 +468,16 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private List<ICameraActions> m_CameraActionsCallbackInterfaces = new List<ICameraActions>();
     private readonly InputAction m_Camera_Movement;
     private readonly InputAction m_Camera_Zoom;
-    private readonly InputAction m_Camera_Rotation;
+    private readonly InputAction m_Camera_AllowRotation;
+    private readonly InputAction m_Camera_MouseRotation;
     public struct CameraActions
     {
         private @PlayerInputActions m_Wrapper;
         public CameraActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Camera_Movement;
         public InputAction @Zoom => m_Wrapper.m_Camera_Zoom;
-        public InputAction @Rotation => m_Wrapper.m_Camera_Rotation;
+        public InputAction @AllowRotation => m_Wrapper.m_Camera_AllowRotation;
+        public InputAction @MouseRotation => m_Wrapper.m_Camera_MouseRotation;
         public InputActionMap Get() { return m_Wrapper.m_Camera; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -492,9 +493,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Zoom.started += instance.OnZoom;
             @Zoom.performed += instance.OnZoom;
             @Zoom.canceled += instance.OnZoom;
-            @Rotation.started += instance.OnRotation;
-            @Rotation.performed += instance.OnRotation;
-            @Rotation.canceled += instance.OnRotation;
+            @AllowRotation.started += instance.OnAllowRotation;
+            @AllowRotation.performed += instance.OnAllowRotation;
+            @AllowRotation.canceled += instance.OnAllowRotation;
+            @MouseRotation.started += instance.OnMouseRotation;
+            @MouseRotation.performed += instance.OnMouseRotation;
+            @MouseRotation.canceled += instance.OnMouseRotation;
         }
 
         private void UnregisterCallbacks(ICameraActions instance)
@@ -505,9 +509,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Zoom.started -= instance.OnZoom;
             @Zoom.performed -= instance.OnZoom;
             @Zoom.canceled -= instance.OnZoom;
-            @Rotation.started -= instance.OnRotation;
-            @Rotation.performed -= instance.OnRotation;
-            @Rotation.canceled -= instance.OnRotation;
+            @AllowRotation.started -= instance.OnAllowRotation;
+            @AllowRotation.performed -= instance.OnAllowRotation;
+            @AllowRotation.canceled -= instance.OnAllowRotation;
+            @MouseRotation.started -= instance.OnMouseRotation;
+            @MouseRotation.performed -= instance.OnMouseRotation;
+            @MouseRotation.canceled -= instance.OnMouseRotation;
         }
 
         public void RemoveCallbacks(ICameraActions instance)
@@ -536,6 +543,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
-        void OnRotation(InputAction.CallbackContext context);
+        void OnAllowRotation(InputAction.CallbackContext context);
+        void OnMouseRotation(InputAction.CallbackContext context);
     }
 }

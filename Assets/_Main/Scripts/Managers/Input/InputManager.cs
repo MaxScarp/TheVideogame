@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
 /// Class that is used as an event dispatcher for the inputs from the player.
@@ -12,6 +12,8 @@ public static class InputManager
     public static event EventHandler OnSelectUnitSinglePerformed;
     public static event EventHandler OnSelectUnitMultipleStarted;
     public static event EventHandler OnTakeActionPerformed;
+    public static event EventHandler OnAllowRotationActionStarted;
+    public static event EventHandler OnAllowRotationActionPerformed;
 
     static InputManager()
     {
@@ -22,19 +24,31 @@ public static class InputManager
         PlayerInputActions.Unit.SelectUnitSingle.performed += SelectUnitSingle_performed;
         PlayerInputActions.Unit.SelectUnitMultiple.started += SelectUnitMultiple_started;
         PlayerInputActions.Unit.TakeAction.performed += TakeAction_performed;
+        PlayerInputActions.Camera.AllowRotation.started += AllowRotation_started;
+        PlayerInputActions.Camera.AllowRotation.performed += AllowRotation_performed;
     }
 
-    private static void TakeAction_performed(InputAction.CallbackContext obj)
+    private static void AllowRotation_performed(CallbackContext obj)
+    {
+        OnAllowRotationActionPerformed?.Invoke(null, EventArgs.Empty);
+    }
+
+    private static void AllowRotation_started(CallbackContext obj)
+    {
+        OnAllowRotationActionStarted?.Invoke(null, EventArgs.Empty);
+    }
+
+    private static void TakeAction_performed(CallbackContext obj)
     {
         OnTakeActionPerformed?.Invoke(null, EventArgs.Empty);
     }
 
-    private static void SelectUnitMultiple_started(InputAction.CallbackContext obj)
+    private static void SelectUnitMultiple_started(CallbackContext obj)
     {
         OnSelectUnitMultipleStarted?.Invoke(null, EventArgs.Empty);
     }
 
-    private static void SelectUnitSingle_performed(InputAction.CallbackContext obj)
+    private static void SelectUnitSingle_performed(CallbackContext obj)
     {
         OnSelectUnitSinglePerformed?.Invoke(null, EventArgs.Empty);
     }
@@ -57,6 +71,10 @@ public static class InputManager
     /// <returns>True if the selection button has been released on this frame, otherwise False.</returns>
     public static bool IsSelectUnitMultipleReleased() => PlayerInputActions.Unit.SelectUnitMultiple.WasReleasedThisFrame();
 
+    /// <summary>
+    /// Read Values from movementButtons.
+    /// </summary>
+    /// <returns>A Vector3 representing a movement direction.</returns>
     public static Vector3 GetCameraMovement()
     {
         float x = PlayerInputActions.Camera.Movement.ReadValue<Vector2>().x;
@@ -67,6 +85,10 @@ public static class InputManager
         return movementDirection;
     }
 
+    /// <summary>
+    /// Get the value of the scroll of the wheel of the mouse.
+    /// </summary>
+    /// <returns>A float value representing the direction of mouse scroll.</returns>
     public static float GetMouseScrollClamped()
     {
         float mouseScroll = PlayerInputActions.Camera.Zoom.ReadValue<float>();
@@ -75,5 +97,11 @@ public static class InputManager
         return mouseScroll;
     }
 
-    public static float GetRotationDirection() => PlayerInputActions.Camera.Rotation.ReadValue<float>();
+    public static float GetMouseRotation()
+    {
+        float deltaMouseX = PlayerInputActions.Camera.MouseRotation.ReadValue<Vector2>().x;
+
+        deltaMouseX = Mathf.Clamp(deltaMouseX, -1f, 1f);
+        return deltaMouseX;
+    }
 }

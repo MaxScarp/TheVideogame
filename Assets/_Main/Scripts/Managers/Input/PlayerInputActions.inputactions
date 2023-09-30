@@ -112,9 +112,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Rotation",
+                    "name": "AllowRotation",
                     "type": "Value",
                     "id": "2d149357-f891-459e-a41f-b35d4e1e1a2c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MouseRotation",
+                    "type": "Value",
+                    "id": "9c6561c0-9b6d-4b39-a08e-a49f21a8a616",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -266,37 +275,26 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "QE",
-                    "id": "d4534ee0-ab36-4324-9f31-cf91cb5c2064",
-                    "path": "1DAxis",
-                    "interactions": "",
+                    "name": "",
+                    "id": "38c270bc-a5b0-40bf-b549-24e1678d0fa6",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "SlowTap(duration=0.01,pressPoint=0.01)",
                     "processors": "",
                     "groups": "",
-                    "action": "Rotation",
-                    "isComposite": true,
+                    "action": "AllowRotation",
+                    "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "06e8e195-c1e3-42bb-bd15-0d91f745e62b",
-                    "path": "<Keyboard>/q",
+                    "name": "",
+                    "id": "cdac30df-703f-49d1-9b32-cd977262a4b7",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Rotation",
+                    "action": "MouseRotation",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "72086ec1-506e-4858-960a-ffd4381577f1",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotation",
-                    "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 }
             ]
         }
