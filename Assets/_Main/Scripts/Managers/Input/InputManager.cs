@@ -14,6 +14,7 @@ public static class InputManager
     public static event EventHandler OnTakeActionPerformed;
     public static event EventHandler OnAllowRotationActionStarted;
     public static event EventHandler OnAllowRotationActionPerformed;
+    public static event EventHandler OnSwitchActionPerformed;
 
     static InputManager()
     {
@@ -26,6 +27,12 @@ public static class InputManager
         PlayerInputActions.Unit.TakeAction.performed += TakeAction_performed;
         PlayerInputActions.Camera.AllowRotation.started += AllowRotation_started;
         PlayerInputActions.Camera.AllowRotation.performed += AllowRotation_performed;
+        PlayerInputActions.Camera.Switch.performed += Switch_performed;
+    }
+
+    private static void Switch_performed(CallbackContext obj)
+    {
+        OnSwitchActionPerformed?.Invoke(null, EventArgs.Empty);
     }
 
     private static void AllowRotation_performed(CallbackContext obj)

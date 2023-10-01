@@ -150,6 +150,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Switch"",
+                    ""type"": ""Button"",
+                    ""id"": ""1443d77a-b952-4a1c-b551-21cb2944b5df"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -317,6 +326,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""MouseRotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""08d23eaf-c284-4c24-ba33-5127324db922"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -335,6 +355,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Camera_Zoom = m_Camera.FindAction("Zoom", throwIfNotFound: true);
         m_Camera_AllowRotation = m_Camera.FindAction("AllowRotation", throwIfNotFound: true);
         m_Camera_MouseRotation = m_Camera.FindAction("MouseRotation", throwIfNotFound: true);
+        m_Camera_Switch = m_Camera.FindAction("Switch", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -470,6 +491,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Camera_Zoom;
     private readonly InputAction m_Camera_AllowRotation;
     private readonly InputAction m_Camera_MouseRotation;
+    private readonly InputAction m_Camera_Switch;
     public struct CameraActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -478,6 +500,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Zoom => m_Wrapper.m_Camera_Zoom;
         public InputAction @AllowRotation => m_Wrapper.m_Camera_AllowRotation;
         public InputAction @MouseRotation => m_Wrapper.m_Camera_MouseRotation;
+        public InputAction @Switch => m_Wrapper.m_Camera_Switch;
         public InputActionMap Get() { return m_Wrapper.m_Camera; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -499,6 +522,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @MouseRotation.started += instance.OnMouseRotation;
             @MouseRotation.performed += instance.OnMouseRotation;
             @MouseRotation.canceled += instance.OnMouseRotation;
+            @Switch.started += instance.OnSwitch;
+            @Switch.performed += instance.OnSwitch;
+            @Switch.canceled += instance.OnSwitch;
         }
 
         private void UnregisterCallbacks(ICameraActions instance)
@@ -515,6 +541,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @MouseRotation.started -= instance.OnMouseRotation;
             @MouseRotation.performed -= instance.OnMouseRotation;
             @MouseRotation.canceled -= instance.OnMouseRotation;
+            @Switch.started -= instance.OnSwitch;
+            @Switch.performed -= instance.OnSwitch;
+            @Switch.canceled -= instance.OnSwitch;
         }
 
         public void RemoveCallbacks(ICameraActions instance)
@@ -545,5 +574,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnZoom(InputAction.CallbackContext context);
         void OnAllowRotation(InputAction.CallbackContext context);
         void OnMouseRotation(InputAction.CallbackContext context);
+        void OnSwitch(InputAction.CallbackContext context);
     }
 }
