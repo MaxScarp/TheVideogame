@@ -456,7 +456,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8257721245099665822}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 34d530461bec694428ff689cbae8692d, type: 3}
   m_Controller: {fileID: 9100000, guid: 3289b36a4baecc64ab2c912155573da7, type: 2}
   m_CullingMode: 1
@@ -883,6 +883,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: pfUnitGoblin
       objectReference: {fileID: 0}
+    - target: {fileID: 7835355437167396666, guid: 7ba0debead0e57f4786ae6e8ef29189b,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 8257721245107008046}
     - target: {fileID: 8463051599235112751, guid: 7ba0debead0e57f4786ae6e8ef29189b,
         type: 3}
       propertyPath: m_LocalScale.x

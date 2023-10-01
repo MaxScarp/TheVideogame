@@ -97,6 +97,10 @@ public static class InputManager
         return mouseScroll;
     }
 
+    /// <summary>
+    /// Get value of deltaMouse.
+    /// </summary>
+    /// <returns>A float representing the delta of the mouse movement in X axis. (-1 left, 1 right, 0 none).</returns>
     public static float GetMouseRotation()
     {
         float deltaMouseX = PlayerInputActions.Camera.MouseRotation.ReadValue<Vector2>().x;

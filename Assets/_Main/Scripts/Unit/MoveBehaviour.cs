@@ -1,7 +1,11 @@
+using System;
 using UnityEngine;
 
 public class MoveBehaviour : BaseBehaviour
 {
+    public event EventHandler OnStartMoving;
+    public event EventHandler OnStopMoving;
+
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private float stoppingDistance = 0.1f;
     [SerializeField] private float rotateSpeed = 10.0f;
@@ -26,6 +30,8 @@ public class MoveBehaviour : BaseBehaviour
         }
         else
         {
+            OnStopMoving?.Invoke(this, EventArgs.Empty);
+
             isActive = false;
         }
 
@@ -41,6 +47,8 @@ public class MoveBehaviour : BaseBehaviour
         this.targetPosition = targetPosition;
 
         isActive = true;
+
+        OnStartMoving?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>

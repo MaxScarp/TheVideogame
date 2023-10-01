@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1343239631033329361}
   - component: {fileID: 4872305870619731526}
   - component: {fileID: 1696572543819579947}
+  - component: {fileID: 3806312702071326197}
   m_Layer: 6
   m_Name: pfUnit
   m_TagString: Untagged
@@ -104,6 +105,19 @@ MonoBehaviour:
   mousePlaneLayerMask:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &3806312702071326197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3496443266765966006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aadf7c5e9edffe4d87231e4d4de8655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 2948646367357349155}
 --- !u!1001 &3006304017966274427
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -367,7 +381,7 @@ PrefabInstance:
     - target: {fileID: 95485627480488536, guid: 8dbb22b9d53a7664b8619d4c6888d92f,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 95485627480488536, guid: 8dbb22b9d53a7664b8619d4c6888d92f,
         type: 3}
@@ -389,6 +403,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dbb22b9d53a7664b8619d4c6888d92f, type: 3}
+--- !u!95 &2948646367357349155 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95485627480488536, guid: 8dbb22b9d53a7664b8619d4c6888d92f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3006304017966274427}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3001939706176415203 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4927815602188952, guid: 8dbb22b9d53a7664b8619d4c6888d92f,

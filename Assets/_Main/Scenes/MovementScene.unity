@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028407, g: 0.2257142, b: 0.30692255, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028459, g: 0.22571498, b: 0.30692363, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -425,22 +425,22 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1998415258}
     m_Modifications:
     - target: {fileID: 5458472440919674777, guid: d73735a390b909d40a466acc43f940ef,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.911
+      value: 3.65
       objectReference: {fileID: 0}
     - target: {fileID: 5458472440919674777, guid: d73735a390b909d40a466acc43f940ef,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0000009536743
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5458472440919674777, guid: d73735a390b909d40a466acc43f940ef,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.091
+      value: 14.09
       objectReference: {fileID: 0}
     - target: {fileID: 5458472440919674777, guid: d73735a390b909d40a466acc43f940ef,
         type: 3}
@@ -450,17 +450,17 @@ PrefabInstance:
     - target: {fileID: 5458472440919674777, guid: d73735a390b909d40a466acc43f940ef,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5458472440919674777, guid: d73735a390b909d40a466acc43f940ef,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5458472440919674777, guid: d73735a390b909d40a466acc43f940ef,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5458472440919674777, guid: d73735a390b909d40a466acc43f940ef,
         type: 3}
@@ -559,7 +559,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349803865}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.45201567, y: 0.000000026583972, z: -0.0000000134711176, w: 0.89201003}
+  m_LocalRotation: {x: 0.4520157, y: -7.6731534e-16, z: -5.472295e-16, w: 0.89201003}
   m_LocalPosition: {x: 4, y: 7.5, z: -1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -939,6 +939,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5a01d0d4c2d9bd46b700b1acca59de0, type: 3}
+--- !u!4 &1749250326 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5458472440919674777, guid: d73735a390b909d40a466acc43f940ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 1270673762}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1943693790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,6 +1012,7 @@ Transform:
   - {fileID: 1293513942}
   - {fileID: 2142776210}
   - {fileID: 772552008}
+  - {fileID: 1749250326}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &2023016939 stripped
@@ -1185,17 +1192,17 @@ PrefabInstance:
     - target: {fileID: 2019180158691388886, guid: 18010bf3e3a75874ebc92cbe62fa6277,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.45201567
+      value: 0.4520157
       objectReference: {fileID: 0}
     - target: {fileID: 2019180158691388886, guid: 18010bf3e3a75874ebc92cbe62fa6277,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000026583972
+      value: -7.6731534e-16
       objectReference: {fileID: 0}
     - target: {fileID: 2019180158691388886, guid: 18010bf3e3a75874ebc92cbe62fa6277,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000134711176
+      value: -5.472295e-16
       objectReference: {fileID: 0}
     - target: {fileID: 2019180158691388886, guid: 18010bf3e3a75874ebc92cbe62fa6277,
         type: 3}
@@ -1654,4 +1661,3 @@ SceneRoots:
   - {fileID: 613459929}
   - {fileID: 1375141940}
   - {fileID: 1943693791}
-  - {fileID: 1270673762}
