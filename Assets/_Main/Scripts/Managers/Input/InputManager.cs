@@ -112,7 +112,7 @@ public static class InputManager
     {
         float deltaMouseX = PlayerInputActions.Camera.MouseRotation.ReadValue<Vector2>().x;
 
-        deltaMouseX = Mathf.Clamp(deltaMouseX, -1f, 1f);
+        deltaMouseX = Mathf.Clamp(deltaMouseX / 3, -10f, 10f);
         return deltaMouseX;
     }
 }
