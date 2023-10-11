@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -11,6 +12,11 @@ public class Unit : MonoBehaviour
     [SerializeField] private int sightRange = 2;
     [SerializeField] private GameObject unit3DVisual;
 
+    [SerializeField] private StatisticsSO statisticVitality;
+    //[SerializeField] private StatisticsSO statisticVitality;
+    //[SerializeField] private StatisticsSO statisticVitality;
+    //[SerializeField] private StatisticsSO statisticVitality;
+
     private bool isSelected;
     private GridPosition gridPosition;
     private LevelGrid levelGrid;
@@ -19,6 +25,7 @@ public class Unit : MonoBehaviour
     {
         isSelected = false;
         gridPosition = new GridPosition();
+        statisticVitality.SubStat1.Value = 10f;
     }
 
     private void Start()
