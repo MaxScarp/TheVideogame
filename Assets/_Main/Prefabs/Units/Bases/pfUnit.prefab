@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1343239631033329361}
   - component: {fileID: 4872305870619731526}
   - component: {fileID: 1696572543819579947}
+  - component: {fileID: -5616711378773442747}
   - component: {fileID: 3806312702071326197}
   m_Layer: 6
   m_Name: pfUnit
@@ -105,6 +106,18 @@ MonoBehaviour:
   mousePlaneLayerMask:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &-5616711378773442747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3496443266765966006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fff7f52c3a574b4599615558bf7c8aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3806312702071326197
 MonoBehaviour:
   m_ObjectHideFlags: 0

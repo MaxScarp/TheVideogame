@@ -589,6 +589,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: pfUnitGoblin
       objectReference: {fileID: 0}
+    - target: {fileID: 6222013745965193423, guid: d73735a390b909d40a466acc43f940ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -666,7 +671,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349803865}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.45201567, y: -0.000000026583972, z: 0.0000000134711176, w: 0.89201003}
+  m_LocalRotation: {x: 0.4520157, y: -7.6731534e-16, z: -5.472295e-16, w: 0.89201003}
   m_LocalPosition: {x: 4, y: 7.5, z: -1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -949,7 +954,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6615f1708a4932646adcdc55932feefa, type: 2}
+  - {fileID: 2100000, guid: 2425c03ff18262a4eaa45371f0fe6dcf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1041,6 +1046,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: pfUnitPeasant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378861336831843109, guid: e5a01d0d4c2d9bd46b700b1acca59de0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1321,17 +1331,17 @@ PrefabInstance:
     - target: {fileID: 2019180158691388886, guid: 18010bf3e3a75874ebc92cbe62fa6277,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.45201567
+      value: 0.4520157
       objectReference: {fileID: 0}
     - target: {fileID: 2019180158691388886, guid: 18010bf3e3a75874ebc92cbe62fa6277,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000026583972
+      value: -7.6731534e-16
       objectReference: {fileID: 0}
     - target: {fileID: 2019180158691388886, guid: 18010bf3e3a75874ebc92cbe62fa6277,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000134711176
+      value: -5.472295e-16
       objectReference: {fileID: 0}
     - target: {fileID: 2019180158691388886, guid: 18010bf3e3a75874ebc92cbe62fa6277,
         type: 3}
