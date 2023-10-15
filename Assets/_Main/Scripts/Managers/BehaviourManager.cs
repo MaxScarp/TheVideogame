@@ -5,6 +5,13 @@ using System.Collections.Generic;
 /// </summary>
 public static class BehaviourManager
 {
+    public enum State
+    {
+        IDLE,
+        MOVE,
+        ATTACK
+    }
+
     private static Dictionary<Unit, BehaviourSystem> behaviourSystemDictionary;
 
     static BehaviourManager()
