@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9adc5b0f62f20e147bd99345f7290224, type: 3}
-  m_Name: Vitality
+  m_Name: Vitality_Goblin
   m_EditorClassIdentifier: 
   Name: 0
-  Level: 0
+  Level: 1
   SubStat1:
     Name: 0
-    BaseValue: 0
-    Value: 0
+    BaseValue: 20
+    Value: 20
   SubStat2:
     Name: 1
-    BaseValue: 0
-    Value: 0
+    BaseValue: 2
+    Value: 2
   SharedSubStat1:
     Name: 11
-    BaseValue: 0
-    Value: 0
+    BaseValue: 1
+    Value: 1
   SharedSubStat2:
     Name: 2
-    BaseValue: 0
-    Value: 0
+    BaseValue: 10
+    Value: 10

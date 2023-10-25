@@ -878,6 +878,12 @@ PrefabInstance:
       propertyPath: unit3DVisual
       value: 
       objectReference: {fileID: 2951931116012798883}
+    - target: {fileID: 6302578304799240573, guid: e9d38e467277c8e408a1df9911a4db80,
+        type: 3}
+      propertyPath: statisticVitality
+      value: 
+      objectReference: {fileID: 11400000, guid: 9fff2f56c9591644597b3d74eb662cff,
+        type: 2}
     - target: {fileID: 6779924358519420961, guid: e9d38e467277c8e408a1df9911a4db80,
         type: 3}
       propertyPath: m_LocalScale.x

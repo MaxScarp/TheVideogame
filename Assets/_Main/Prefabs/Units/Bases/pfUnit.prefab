@@ -76,11 +76,7 @@ MonoBehaviour:
   levelGridNumber: 0
   sightRange: 1
   unit3DVisual: {fileID: 3007553082150880043}
-  statisticVitality: {fileID: 11400000, guid: fbbd39fed423b9a448577492bb86b266, type: 2}
-  statisticStrenght: {fileID: 11400000, guid: fae6f5fa6042a194cb27af0859fd7f32, type: 2}
-  statisticDexterity: {fileID: 11400000, guid: 4efb82e0f277a9c418d713bebe76ed41, type: 2}
-  statisticIntelligence: {fileID: 11400000, guid: 5f55c5630da268e4599a83f4543bb9be,
-    type: 2}
+  statisticVitality: {fileID: 0}
 --- !u!114 &4872305870619731526
 MonoBehaviour:
   m_ObjectHideFlags: 0

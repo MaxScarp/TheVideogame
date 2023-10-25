@@ -5,17 +5,19 @@ using static StatisticsShared;
 
 public class AttackBehaviour : BaseBehaviour
 {
-    public override void TakeAction(Vector3 targetPosition)
+    public override void TakeAction(Vector3 targetPosition, Unit unit)
     {
-        Debug.Log("ATTACCA!");
+        //ToDo Get all unit in attack range
+        DamageCalculations(unit);
+        //ToDo Send damage to all unit hit
     }
 
     #region private methods
-    private float DamageCalculations()
+    private float DamageCalculations(Unit unit)
     {
         //ToDo Get stats from Unit statistics and weapon class
+        //return CalculateHitDamage(unit.GetEquipment()., weaponQuality);
 
-        //return CalculateHitDamage(baseDamageFromUnit, weaponQuality);
         return 1;
     }
 

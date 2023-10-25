@@ -12,7 +12,7 @@ public class Unit : MonoBehaviour
     [SerializeField] private int sightRange = 2;
     [SerializeField] private GameObject unit3DVisual;
 
-    //[SerializeField] private StatisticsSO statisticVitality;
+    [SerializeField] private StatisticsSO statisticVitality;
     //[SerializeField] private StatisticsSO statisticVitality;
     //[SerializeField] private StatisticsSO statisticVitality;
     //[SerializeField] private StatisticsSO statisticVitality;
@@ -25,7 +25,6 @@ public class Unit : MonoBehaviour
     {
         isSelected = false;
         gridPosition = new GridPosition();
-        //statisticVitality.SubStat1.Value = 10f;
     }
 
     private void Start()
@@ -130,4 +129,6 @@ public class Unit : MonoBehaviour
     /// </summary>
     /// <returns>A GridPosition struct representing the position of the unit inside the a cell of the grid.</returns>
     public GridPosition GetGridPosition() => gridPosition;
+
+    public StatisticsSO GetStatisticVitality() => statisticVitality;
 }

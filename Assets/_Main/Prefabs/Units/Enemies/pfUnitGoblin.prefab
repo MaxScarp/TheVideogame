@@ -878,6 +878,12 @@ PrefabInstance:
       propertyPath: unit3DVisual
       value: 
       objectReference: {fileID: 8257721245099665822}
+    - target: {fileID: 5389223456598058014, guid: 7ba0debead0e57f4786ae6e8ef29189b,
+        type: 3}
+      propertyPath: statisticVitality
+      value: 
+      objectReference: {fileID: 11400000, guid: 665ff5213e740c0478d28af4def78dc3,
+        type: 2}
     - target: {fileID: 7560320969830123641, guid: 7ba0debead0e57f4786ae6e8ef29189b,
         type: 3}
       propertyPath: m_Name

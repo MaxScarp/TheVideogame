@@ -9,9 +9,6 @@ public class BehaviourSystem : MonoBehaviour
     private BaseBehaviour[] baseBehaviourArray;
     private BehaviourManager.State actualState;
 
-    private float testTimer;
-    private float testTimerMax;
-
     private void Awake()
     {
         unit = GetComponent<Unit>();
@@ -21,9 +18,6 @@ public class BehaviourSystem : MonoBehaviour
         BehaviourManager.AddBehaviourSystem(unit, this);
 
         actualState = BehaviourManager.State.IDLE;
-
-        testTimerMax = 5f;
-        testTimer = testTimerMax;
 
         InputManager.OnTakeActionPerformed += InputManager_OnTakeActionPerformed;
     }
@@ -50,7 +44,6 @@ public class BehaviourSystem : MonoBehaviour
         {
             case BehaviourManager.State.IDLE:
                 Debug.Log("SONO PASSATO IN IDLE");
-                testTimer = testTimerMax;
                 unitAnimator.StopRunning();
                 actualState = newState;
                 break;
@@ -61,10 +54,16 @@ public class BehaviourSystem : MonoBehaviour
                 break;
             case BehaviourManager.State.ATTACK:
                 Debug.Log("SONO PASSATO IN ATTACCO");
-                testTimer = testTimerMax;
                 actualState = newState;
                 break;
         }
+    }
+
+    private void CheckIfEnemyOnRange()
+    {
+        //if is in range then
+        //  ChangeStateTo(BehaviourManager.State.ATTACK)
+
     }
 
     private void InputManager_OnTakeActionPerformed(object sender, EventArgs e)
@@ -86,24 +85,27 @@ public class BehaviourSystem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles logic of how the attack is made. 
+    /// This means that it also handles the unit movement toward the enemy to chase them and when to exit the state.
+    /// </summary>
     private void HandleAttackState()
     {
-        testTimer -= Time.deltaTime;
-        if (testTimer <= 0f)
+        //If in range, if it's time to attack (attack speed), etc..
+        if(TryGetBehaviour(out AttackBehaviour attackBehaviour))
         {
-            ChangeStateTo(BehaviourManager.State.IDLE);
+            attackBehaviour.TakeAction(Vector3.zero, unit);
         }
     }
 
     private void HandleIdleState()
     {
-        testTimer -= Time.deltaTime;
-        if (testTimer <= 0f)
-        {
-            ChangeStateTo(BehaviourManager.State.ATTACK);
-        }
+
     }
 
+    /// <summary>
+    /// Handles movement inputted by player. Overrides other states.
+    /// </summary>
     private void HandleMoveState()
     {
     }

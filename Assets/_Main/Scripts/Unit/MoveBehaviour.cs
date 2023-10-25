@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MoveBehaviour : BaseBehaviour
@@ -42,7 +43,7 @@ public class MoveBehaviour : BaseBehaviour
     /// Do the action corresponding to the MoveBehaviour.
     /// </summary>
     /// <param name="targetPosition">A position on the world to be reached.</param>
-    public override void TakeAction(Vector3 targetPosition)
+    public override void TakeAction(Vector3 targetPosition, Unit unit = null)
     {
         this.targetPosition = targetPosition;
 

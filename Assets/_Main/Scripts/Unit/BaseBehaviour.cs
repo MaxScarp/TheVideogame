@@ -7,5 +7,5 @@ public abstract class BaseBehaviour : MonoBehaviour
 {
     protected bool isActive;
 
-    public abstract void TakeAction(Vector3 targetPosition);
+    public abstract void TakeAction(Vector3 targetPosition, Unit unit = null);
 }
