@@ -10,15 +10,15 @@ public class UnitSelectionSystem : MonoBehaviour
 
     private Vector3 startPosition;
     private Vector3 endPosition;
-    private float selectMultipleUnitHeldTimer;
-    private float selectMultipleUnitHeldTimerMax;
-    private bool isMouseBeenHeld;
+    //private float selectMultipleUnitHeldTimer;
+    //private float selectMultipleUnitHeldTimerMax;
+    //private bool isMouseBeenHeld;
 
     private void Awake()
     {
-        selectMultipleUnitHeldTimerMax = 0.085f;
+        //selectMultipleUnitHeldTimerMax = 0.085f;
 
-        InputManager.OnSelectUnitSinglePerformed += InputManager_OnSelectUnitSinglePerformed;
+        //InputManager.OnSelectUnitSinglePerformed += InputManager_OnSelectUnitSinglePerformed;
         InputManager.OnSelectUnitMultipleStarted += InputManager_OnSelectUnitMultipleStarted;
     }
 
@@ -31,8 +31,8 @@ public class UnitSelectionSystem : MonoBehaviour
     {
         if (InputManager.IsSelectUnitMultipleHeld())
         {
-            selectMultipleUnitHeldTimer += Time.deltaTime;
-            isMouseBeenHeld = selectMultipleUnitHeldTimer >= selectMultipleUnitHeldTimerMax;
+            //selectMultipleUnitHeldTimer += Time.deltaTime;
+            //isMouseBeenHeld = selectMultipleUnitHeldTimer >= selectMultipleUnitHeldTimerMax;
 
             endPosition = GetMouseScreenPosition();
 
@@ -41,14 +41,40 @@ public class UnitSelectionSystem : MonoBehaviour
 
         if (InputManager.IsSelectUnitMultipleReleased())
         {
-            if (isMouseBeenHeld)
+            #region old
+            /*
+            if (InputManager.IsSelectUnitMultipleHeld())
             {
-                SelectMultipleUnits();
+                selectMultipleUnitHeldTimer += Time.deltaTime;
+                isMouseBeenHeld = selectMultipleUnitHeldTimer >= selectMultipleUnitHeldTimerMax;
+
+                endPosition = GetMouseScreenPosition();
+
+                UpdateUnitSelectionArea();
             }
 
-            ResetSelectMultipleUnitHeldTimer();
+            if (InputManager.IsSelectUnitMultipleReleased())
+            {
+                if (isMouseBeenHeld)
+                {
+                    SelectMultipleUnits();
+                }
+
+                ResetSelectMultipleUnitHeldTimer();
+                ResetMousePosition();
+                UpdateUnitSelectionArea();
+            }*/
+            #endregion
+
+            #region new
+            if (SelectMultipleUnits() <= 0)
+            {
+                SelectClickedUnit();
+            }
+
             ResetMousePosition();
             UpdateUnitSelectionArea();
+            #endregion
         }
     }
 
@@ -76,21 +102,21 @@ public class UnitSelectionSystem : MonoBehaviour
     /// <summary>
     /// Reset the timer used for revealing the mouse held for selecting multiple units
     /// </summary>
-    private void ResetSelectMultipleUnitHeldTimer()
-    {
-        selectMultipleUnitHeldTimer = 0f;
-        isMouseBeenHeld = false;
-    }
+    //private void ResetSelectMultipleUnitHeldTimer()
+    //{
+        //selectMultipleUnitHeldTimer = 0f;
+        //isMouseBeenHeld = false;
+    //}
 
     private void InputManager_OnSelectUnitMultipleStarted(object sender, EventArgs e)
     {
         startPosition = GetMouseScreenPosition();
     }
 
-    private void InputManager_OnSelectUnitSinglePerformed(object sender, EventArgs e)
-    {
-        SelectClickedUnit();
-    }
+    //private void InputManager_OnSelectUnitSinglePerformed(object sender, EventArgs e)
+    //{
+    //    //SelectClickedUnit();
+    //}
 
     /// <summary>
     /// Select all the units under the selection box
@@ -186,8 +212,6 @@ public class UnitSelectionSystem : MonoBehaviour
                     {
                         UnitManager.ClearAllSelectedUnitList();
                     }
-
-                    return;
                 }
 
                 //A unit has been hit
@@ -225,7 +249,7 @@ public class UnitSelectionSystem : MonoBehaviour
 
     private void OnDestroy()
     {
-        InputManager.OnSelectUnitSinglePerformed -= InputManager_OnSelectUnitSinglePerformed;
+        //InputManager.OnSelectUnitSinglePerformed -= InputManager_OnSelectUnitSinglePerformed;
         InputManager.OnSelectUnitMultipleStarted -= InputManager_OnSelectUnitMultipleStarted;
     }
 }

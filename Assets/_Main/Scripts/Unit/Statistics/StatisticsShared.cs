@@ -35,7 +35,7 @@ public static class StatisticsShared
         public float Value;
     }
 
-    public struct Hit
+    public struct DamageInformation
     {
         public float ActualDamage;
         public bool IsCriticalHit;

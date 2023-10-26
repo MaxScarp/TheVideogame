@@ -22,7 +22,7 @@ public static class InputManager
 
         PlayerInputActions.Unit.Enable();
         PlayerInputActions.Camera.Enable();
-        PlayerInputActions.Unit.SelectUnitSingle.performed += SelectUnitSingle_performed;
+        PlayerInputActions.Unit.SelectUnitSingle.started += SelectUnitSingle_performed;
         PlayerInputActions.Unit.SelectUnitMultiple.started += SelectUnitMultiple_started;
         PlayerInputActions.Unit.TakeAction.performed += TakeAction_performed;
         PlayerInputActions.Camera.AllowRotation.started += AllowRotation_started;

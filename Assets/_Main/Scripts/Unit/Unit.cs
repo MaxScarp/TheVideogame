@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -13,9 +14,9 @@ public class Unit : MonoBehaviour
     [SerializeField] private GameObject unit3DVisual;
 
     [SerializeField] private StatisticsSO statisticVitality;
-    //[SerializeField] private StatisticsSO statisticVitality;
-    //[SerializeField] private StatisticsSO statisticVitality;
-    //[SerializeField] private StatisticsSO statisticVitality;
+    [SerializeField] private StatisticsSO statisticStrenght;
+    [SerializeField] private StatisticsSO statisticDexterity;
+    [SerializeField] private StatisticsSO statisticIntelligence;
 
     private bool isSelected;
     private GridPosition gridPosition;
@@ -131,4 +132,7 @@ public class Unit : MonoBehaviour
     public GridPosition GetGridPosition() => gridPosition;
 
     public StatisticsSO GetStatisticVitality() => statisticVitality;
+    public StatisticsSO GetStatisticStrenght() => statisticStrenght;
+    public StatisticsSO GetStatisticDexterity() => statisticDexterity;
+    public StatisticsSO GetStatisticIntelligence() => statisticIntelligence;
 }

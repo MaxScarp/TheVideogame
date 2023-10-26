@@ -21,12 +21,12 @@ public class AttackBehaviour : BaseBehaviour
         return 1;
     }
 
-    private Hit CalculateHitDamage(float baseDamage, float weaponQuality) 
+    private DamageInformation CalculateHitDamage(float baseDamage, float weaponQuality) 
     {
-        Hit hit = new Hit();
-        hit.ActualDamage = baseDamage * UnityEngine.Random.Range(weaponQuality, 1);
-        hit.IsCriticalHit = CriticalHitCheck(ref hit.ActualDamage);
-        return hit;
+        DamageInformation dmgInfo = new DamageInformation();
+        dmgInfo.ActualDamage = baseDamage * UnityEngine.Random.Range(weaponQuality, 1);
+        dmgInfo.IsCriticalHit = CriticalHitCheck(ref dmgInfo.ActualDamage);
+        return dmgInfo;
     }
 
     private bool CriticalHitCheck(ref float actualDamage)
